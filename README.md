@@ -1,0 +1,2 @@
+# awesome
+my awesomeconfig
