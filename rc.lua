@@ -233,8 +233,22 @@ vicious.register(wifiwidget, vicious.widgets.wifi, "${link}%", 20, "wlp3s0")
 
 
 -- FSwidget get free diskspace
-fswidget = awful.widget.textclock()
-vicious.register(fswidget, vicious.widgets.fs, "${/ avail_gb}GB")
+--home mount 
+fs_home = awful.widget.textclock()
+vicious.register(fs_home, vicious.widgets.fs, "${/home avail_gb}GB")
+fs_home:connect_signal("mouse::enter", function()
+dev = naughty.notify({title="dev",text="/home"})  end)
+fs_home:connect_signal("mouse::leave", function() naughty.destroy(dev) end)
+
+--root 
+fs_root = awful.widget.textclock()
+vicious.register(fs_root, vicious.widgets.fs, "${/ avail_gb}GB")
+fs_root:connect_signal("mouse::enter", function()
+dev = naughty.notify({title="dev",text="/"})  end)
+fs_root:connect_signal("mouse::leave", function() naughty.destroy(dev) end)
+
+
+
 
 -- Create Membar
 memwidget = wibox.widget.textbox()
@@ -423,7 +437,9 @@ for s = 1, screen.count() do
     addicon(theme.mem)
     right_layout:add(memwidget)
     addicon(theme.disc)
-    right_layout:add(fswidget)
+    right_layout:add(fs_home)
+    addicon(theme.disc)
+    right_layout:add(fs_root)
     addicon(theme.bat)
     right_layout:add(batwidget)
     if s == 1 then right_layout:add(wibox.widget.systray()) end
