@@ -1,9 +1,9 @@
 # awesome
 my awesomeconfig and widgets. Some of them are selfmade and more ore less documented some are from the awesome-wiki (i'll try to mark them).  
 
-[features] (#features)
+* [features] (#features)
 	* [random wallpapers](#random-wallpapers)
-[widgets](#widgets)
+* [widgets](#widgets)
 	* [weather](#weather-widget)
 
 
