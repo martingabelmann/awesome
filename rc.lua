@@ -348,7 +348,8 @@ mylayoutbox = {}
 mytaglist = {}
 mytaglist.buttons = awful.util.table.join(
                     awful.button({ }, 1, function(t) 
-			    awful.tag.viewonly(t) 
+			    awful.tag.viewonly(t)
+			    --set random wallpaper for toggeled tag
 		            gears.wallpaper.maximized( wp_path .. wp_files[wp_index[awful.tag.getidx(t)]] , s, true)
 		    end),
                     awful.button({ modkey }, 1, awful.client.movetotag),
