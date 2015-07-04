@@ -3,9 +3,9 @@ My Awesomeconfig and -widgets. Some of them are selfmade and more ore less docum
 
 
 ###  Table of contents
-* [features] (#features)
+* [Features] (#features)
 	* [random wallpapers](#random-wallpapers)
-* [widgets](#widgets)
+* [Widgets](#widgets)
 	* [weather](#weather-widget)
 
 

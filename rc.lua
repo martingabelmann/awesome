@@ -75,10 +75,8 @@ filemanager = "mc"
 txt = "vim"
 browser = "luakit"
 videoplayer = "vlc"
-xournal = "xournal"
 mail = "thunderbird"
 music = "vlc"
-remotedesktop = "teamviewer"
 office = "libreoffice"
 
 
@@ -158,17 +156,11 @@ appsmenu = {
         { "office", office },
 	{ "txt", txt }, 
 	{ "videoplayer", videoplayer },
-	{ "xournal", xournal },
 	{"skype", terminal .. "-e ALSA_OSS_PCM_DEVICE=skype aoss skype"}
 }
 
 networkmenu = {
-	{ "remotedesk", remotedesktop },	
-	{ "ssh htpc", terminal .. " -hold -e ssh -Y mana@htpc" },
 	{ "wol htpc", terminal .. " -hold -e wol 00:1e:90:f8:b5:f8" },
-	{ "vnc htpc", terminal .. " -hold -e vncviewer htpc" },
-	{ "ovpn kit", terminal .. " -hold -e sudo systemctl start openvpn@kit.service" },
-	{ "svpn", terminal .. " -hold -e sudo systemctl start openvpn@swissvpn.service" }
 }
 
 helpMenu = { 
@@ -206,17 +198,11 @@ menubar.cache_entries = true
 -- Calendar widget
 require('calendar2')
 
--- Create a textclock widget
+-- Create a textclock widget with calendar
 mytextclock = awful.widget.textclock()
 mytextclock.border_width = 1
 mytextclock.border_color = beautiful.fg_normal 
 calendar2.addCalendarToWidget(mytextclock, "<span color='blue'>%s</span>")
-
-
--- Wifiwidget
-wifiwidget = wibox.widget.textbox()
-vicious.register(wifiwidget, vicious.widgets.wifi, "${link}%", 20, "wlp3s0")
-
 
 -- FSwidget get free diskspace
 --home mount 
@@ -233,18 +219,9 @@ fs_root:connect_signal("mouse::enter", function()
 dev = naughty.notify({title="dev",text="/"})  end)
 fs_root:connect_signal("mouse::leave", function() naughty.destroy(dev) end)
 
-
-
-
 -- Create Membar
 memwidget = wibox.widget.textbox()
 vicious.register(memwidget, vicious.widgets.mem, "$1%", 13)
-
-memwidget:connect_signal("mouse::enter", function() 
-mem = naughty.notify({title="Memory",text=awful.util.pread("cat /proc/meminfo")})  end)
-memwidget:connect_signal("mouse::leave", function() 
-    naughty.destroy(mem) 
-  end) 
 
 --Create CPUbar
 cpuwidget = wibox.widget.textbox()
@@ -252,10 +229,10 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1%")
 
 -- Create Volbar
 function readvol()
-mutestatus = awful.util.pread("cat /proc/acpi/ibm/volume | awk 'NR>1 && NR<3 {print $2}'")
-vol = round((awful.util.pread("cat /proc/acpi/ibm/volume | awk 'NR>0 && NR<2 {print $2}'"))*100/14,0)
+volume = round((awful.util.pread("cat /proc/acpi/ibm/volume | awk 'NR>0 && NR<2 {print $2}'"))*100/14,0)
+mutestatus = awful.util.pread("cat /proc/acpi/ibm/volume")
 
-if string.find(mutestatus, "on", 1, true) then
+if string.find(mutestatusk, "on", 1, true) then
 	volcolor = theme.fg_focus
 else 
 	volcolor = theme.fg_normal
@@ -267,7 +244,7 @@ end
 
 volwidget = wibox.widget.textbox()
 readvol()
-voltimer = timer({ timeout =0.2 }) 
+voltimer = timer({ timeout =1 }) 
 voltimer:connect_signal("timeout", function() readvol(volwidget) end)
 voltimer:start()
 
@@ -405,18 +382,17 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
 
-	function addicon(source)
-		icon = wibox.widget.imagebox()
-		icon:set_image(source)
-		right_layout:add(icon)
-	end
 
---    right_layout:add(mpdwidget)
+    --icons for widgets
+    function addicon(source)
+	    icon = wibox.widget.imagebox()
+	    icon:set_image(source)
+	    right_layout:add(icon)
+    end
+
     right_layout:add(weatherwidget)
     addicon(theme.vol)
     right_layout:add(volwidget)
-    addicon(theme.wifi)
-    right_layout:add(wifiwidget)	
     addicon(theme.cpu)
     right_layout:add(cpuwidget)
     addicon(theme.mem)
