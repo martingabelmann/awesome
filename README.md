@@ -7,7 +7,7 @@ My Awesomeconfig and -widgets. Some of them are selfmade and more ore less docum
 	* [random wallpapers](#random-wallpapers)
 * [Widgets](#widgets)
 	* [weather](#weather-widget)
-
+	* [volbar](#volume-bar)
 
 # features
 ## random wallpapers
@@ -108,4 +108,30 @@ weatherwidget:connect_signal(
    "mouse::leave", function()
       naughty.destroy(weather)
 end)
+```
+
+## volume bar
+Im using hardwarebuttons to control the audio volume, so i just have to know the audio-level and mute-status. For my thinkpad this information is stored at '/proc/acpi/volume'. The file is been parsed every half second and echoed in a textbox.
+
+```lua
+-- Create Volbar
+function readvol()
+volume = round((awful.util.pread("cat /proc/acpi/ibm/volume | awk 'NR>0 && NR<2 {print $2}'"))*100/14,0)
+mutestatus = awful.util.pread("cat /proc/acpi/ibm/volume")
+
+if string.find(mutestatusk, "on", 1, true) then
+        volcolor = theme.fg_focus
+else
+        volcolor = theme.fg_normal
+end
+
+volume = "<span color='" .. volcolor .. "'>" .. vol .. "% </span>"
+volwidget:set_markup(volume)
+end
+
+volwidget = wibox.widget.textbox()
+readvol()
+voltimer = timer({ timeout =1 })   
+voltimer:connect_signal("timeout", function() readvol(volwidget) end)
+voltimer:start()
 ```

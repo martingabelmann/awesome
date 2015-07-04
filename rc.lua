@@ -229,7 +229,7 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1%")
 
 -- Create Volbar
 function readvol()
-volume = round((awful.util.pread("cat /proc/acpi/ibm/volume | awk 'NR>0 && NR<2 {print $2}'"))*100/14,0)
+vol = round((awful.util.pread("cat /proc/acpi/ibm/volume | awk 'NR>0 && NR<2 {print $2}'"))*100/14,0)
 mutestatus = awful.util.pread("cat /proc/acpi/ibm/volume")
 
 if string.find(mutestatus, "on", 1, true) then
