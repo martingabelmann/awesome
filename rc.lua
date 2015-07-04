@@ -65,19 +65,19 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 beautiful.init("/home/martin/.config/awesome/themes/defaultmod/theme.lua")
--- beautiful.init("/home/martin/.config/awesome/themes/arch/theme.lua")
--- This is used later as the default terminal and editor to run.
 
+
+--default applications for the menu
 terminal = "xterm"
-editor = "nano"
+editor = "vim"
 editor_cmd = terminal .. " -e " .. editor
 filemanager = "mc"
-txt = "geany"
+txt = "vim"
 browser = "luakit"
 videoplayer = "vlc"
 xournal = "xournal"
 mail = "thunderbird"
-music = "sonata"
+music = "vlc"
 remotedesktop = "teamviewer"
 office = "libreoffice"
 
@@ -93,25 +93,13 @@ modkey = "Mod4"
 local layouts =
 {
 
---    awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
---    awful.layout.suit.tile.top,
---    awful.layout.suit.fair,
     awful.layout.suit.fair.horizontal,
     awful.layout.suit.max,
     awful.layout.suit.floating
---    awful.layout.suit.max.fullscreen,
---    awful.layout.suit.magnifier
 }
 -- }}}
-
--- {{{ Wallpaper
---if beautiful.wallpaper then
---    for s = 1, screen.count() do
---        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
---    end
---end
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
@@ -259,7 +247,6 @@ memwidget:connect_signal("mouse::leave", function()
   end) 
 
 --Create CPUbar
---cpuwidget = awful.widget.graph()
 cpuwidget = wibox.widget.textbox()
 vicious.register(cpuwidget, vicious.widgets.cpu, "$1%")
 
@@ -268,7 +255,6 @@ function readvol()
 mutestatus = awful.util.pread("cat /proc/acpi/ibm/volume | awk 'NR>1 && NR<3 {print $2}'")
 vol = round((awful.util.pread("cat /proc/acpi/ibm/volume | awk 'NR>0 && NR<2 {print $2}'"))*100/14,0)
 
---if mutestatus == "on" then 
 if string.find(mutestatus, "on", 1, true) then
 	volcolor = theme.fg_focus
 else 
@@ -285,7 +271,6 @@ voltimer = timer({ timeout =0.2 })
 voltimer:connect_signal("timeout", function() readvol(volwidget) end)
 voltimer:start()
 
---globalkeys = awful.util.table.join(globalkeys, awful.key({ }, "XF86AudioRaiseVolume", function () readvol() end))
 
 --Create Batterybar
 batwidget = wibox.widget.textbox()
@@ -315,8 +300,6 @@ batwidget:connect_signal("mouse::leave", function()
     naughty.destroy(bat) 
   end) 
  
- --vicious.register(batwidget, vicious.widgets.bat, "$2%", 50, "BAT0")
-
 
 --Create a weather widget
 --weatherwidget = wibox.widget.textbox()
@@ -520,33 +503,7 @@ globalkeys = awful.util.table.join(
     --Dropdownterminal
     awful.key({ modkey }, "v", function () scratch.drop("xterm", "bottom") end),
 
-    -- Prompt
- --  awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
-
--- Run or raise applications with dmenu
---awful.key({ modkey }, "r", function ()
---    local f_reader = io.popen( "dmenu_path | dmenu -t -nb '".. beautiful.bg_normal .."' -nf '".. beautiful.fg_normal .."' -sb '" .. beautiful.fg_focus .. "'")
---    local command = assert(f_reader:read('*a'))
---    f_reader:close()
---   if command == "" then return end
-
- -- Check throught the clients if the class match the command
---    local lower_command=string.lower(command)
---    for k, c in pairs(client.get()) do
---        local class=string.lower(c.class)
---        if string.match(class, lower_command) then
---            for i, v in ipairs(c:tags()) do
---                awful.tag.viewonly(v)
---                c:raise()
---                c.minimized = false
---                return
---            end
---        end
---    end
---    awful.util.spawn(command)
---end),
-
-    -- Calculator
+        -- Calculator
     awful.key({ modkey            }, "c", function ()
         awful.prompt.run({ prompt = "Calculate: " }, mypromptbox[mouse.screen].widget,
             function (expr)
@@ -586,10 +543,6 @@ end),
                   awful.util.getdir("cache") .. "/history_eval")
               end),
               
---	awful.key({ }, "XF86AudioLowerVolume", function () readvol(volwidget) end),
---	awful.key({ }, "XF86AudioRaiseVolume", function () readvol(volwidget) end),
---	awful.key({ }, "XF86AudioMute", function () readvol(volwidget) end),
-
     -- Menubar
     awful.key({ modkey }, "r", function() menubar.show() end)
     
