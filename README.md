@@ -34,7 +34,7 @@ gears.wallpaper.maximized( wp_path .. wp_files[wp_index[1]] , s, true)
 ```  
   
 **Wibox section**  
-We just change the wallpaper on each tag-toggle.  
+We just change the wallpaper on each tag-toggle event.  
 If the wallpaper is changed by mouse we need to replace  
 ```lua
 awful.button({ }, 1, awful.tag.viewonly),
@@ -49,7 +49,7 @@ end),
 ```  
   
 **Keybindings section**  
-if it's change with the keyboard, we need to replace
+if it's changed with the keyboard, we need to replace
 ```lua
 function ()
             local screen = mouse.screen
