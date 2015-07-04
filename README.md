@@ -1,6 +1,13 @@
 # awesome
-my awesomeconfig__
+my awesomeconfig and widgets. Some of them are selfmade and more ore less documented some are from the awesome-wiki (i'll try to mark them).  
 
+[features] (#features)
+	* [random wallpapers](#random-wallpapers)
+[widgets](#widgets)
+	* [weather](#weather-widget)
+
+
+# features
 ## random wallpapers
 *I wanted to have random wallpapers for each tag per session. So here they are.*  
   
@@ -71,9 +78,9 @@ function ()
                         end
 end),
 ```
-Now the wallpaper will change every time you swich the tag.
+Now the wallpaper will change every time you swich the tag, which will look like every tag has its own (random) wallpaper.
 
-#Weather Widget
+##Weather Widget
 Im using the [ansiweather-git](https://github.com/fcambus/ansiweat) package from [archlinux  aur](https://aur.archlinux.org/packages/ansiweather-git/) to grep weather informations from the cli.  
 
 Just place the `weatherwidget` in your layout where you want.
