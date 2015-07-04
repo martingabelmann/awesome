@@ -2,12 +2,11 @@
 my awesomeconfig__
 
 ## random wallpapers
-*I wanted to have random wallpapers for each tag per session. So here they are.*__
-
-
+*I wanted to have random wallpapers for each tag per session. So here they are.*  
+  
 **Wallpaper section**
-First we generate a table with all wallpapers. Every tag gets assigned to one Wallpaper using a table filled with random indices.__
-
+First we generate a table with all wallpapers. Every tag gets assigned to one Wallpaper using a table filled with random indices.  
+  
 Replace
 ```lua
 -- {{{ Wallpaper
@@ -32,12 +31,11 @@ wp_index = {}
 for t = 1, 9 do  wp_index[t] = math.random( 1, #wp_files)  end
 gears.wallpaper.maximized( wp_path .. wp_files[wp_index[1]] , s, true)
 -- }}}
-```
-____
-
-**Wibox section**
-We just change the wallpaper on each tag-toggle.
-If the wallpaper is changed by mouse we need to replace
+```  
+  
+**Wibox section**  
+We just change the wallpaper on each tag-toggle.  
+If the wallpaper is changed by mouse we need to replace  
 ```lua
 awful.button({ }, 1, awful.tag.viewonly),
 ```
@@ -48,9 +46,9 @@ awful.button({ }, 1, function(t)
                      --set random wallpaper for toggeled tag
                      gears.wallpaper.maximized( wp_path .. wp_files[wp_index[awful.tag.getidx(t)]] , s, true)
 end),
-```
-__
-**Keybindings section**__
+```  
+  
+**Keybindings section**  
 if it's change with the keyboard, we need to replace
 ```lua
 function ()
@@ -76,7 +74,7 @@ end),
 Now the wallpaper will change every time you swich the tag.
 
 #Weather Widget
-Im using the [ansiweather-git](https://github.com/fcambus/ansiweat) package from [archlinux  aur](https://aur.archlinux.org/packages/ansiweather-git/) to grep weather informations from the cli.__
+Im using the [ansiweather-git](https://github.com/fcambus/ansiweat) package from [archlinux  aur](https://aur.archlinux.org/packages/ansiweather-git/) to grep weather informations from the cli.  
 
 Just place the `weatherwidget` in your layout where you want.
 ```lua
