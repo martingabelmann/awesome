@@ -2,10 +2,13 @@
 my awesomeconfig
 
 ## random wallpapers
-<i>I wanted to have random wallpapers for each tag per session. So here they are.</i>
+*I wanted to have random wallpapers for each tag per session. So here they are.*
 
-<b>Wallpaper section</b>
+
+**Wallpaper section**
 First we generate a table with all wallpapers. Every tag gets assigned to one Wallpaper using a table filled with random indices.
+
+
 
 Replace
 ```lua
@@ -33,9 +36,12 @@ gears.wallpaper.maximized( wp_path .. wp_files[wp_index[1]] , s, true)
 -- }}}
 ```
 
+
+
+
+**Wibox section**
 We just change the wallpaper on each tag-toggle.
-<b>Wibox section</b>
-if the wallpaper is changed by mouse we need to replace
+If the wallpaper is changed by mouse we need to replace
 ```lua
 awful.button({ }, 1, awful.tag.viewonly),
 ```
@@ -48,7 +54,7 @@ awful.button({ }, 1, function(t)
 end),
 ```
 
-<b>Keybindings section</b>
+**Keybindings section**
 if it's change with the keyboard, we need to replace
 ```lua
 function ()
@@ -71,4 +77,7 @@ function ()
                         end
 end),
 ```
+
+
+
 Now the wallpaper will change every time you swich the tag.
