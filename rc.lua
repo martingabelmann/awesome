@@ -232,7 +232,7 @@ function readvol()
 volume = round((awful.util.pread("cat /proc/acpi/ibm/volume | awk 'NR>0 && NR<2 {print $2}'"))*100/14,0)
 mutestatus = awful.util.pread("cat /proc/acpi/ibm/volume")
 
-if string.find(mutestatusk, "on", 1, true) then
+if string.find(mutestatus, "on", 1, true) then
 	volcolor = theme.fg_focus
 else 
 	volcolor = theme.fg_normal
