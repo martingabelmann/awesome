@@ -494,9 +494,9 @@ globalkeys = awful.util.table.join(
         info = true
         awful.prompt.run({prompt = "Dict: "}, mypromptbox[mouse.screen].widget,
         function(word)
-               de = awful.util.pread("dict -d deu-eng " .. word)
-	     eng = awful.util.pread("dict -d eng-deu " .. word)
-                naughty.notify({ text = "_________________________DE-ENG_________________________<br><br>" .. de .. "_________________________ENG-DE_________________________<br><br>" .. eng, timeout = 0, width = 400 })
+               de = awful.util.pread("dict -d fd-deu-eng " .. word)
+	     eng = awful.util.pread("dict -d fd-eng-deu " .. word)
+                naughty.notify({ text = "___DE-ENG___\n" .. de .. "\n\n___ENG-DE___\n" .. eng, timeout = 0, width = 400 })
         end,
         nil, awful.util.getdir("cache") .. "/dict") 
 end),
