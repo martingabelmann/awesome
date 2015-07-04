@@ -113,25 +113,6 @@ local layouts =
 --    end
 --end
 
--- seed and "pop a few"
-math.randomseed(os.time())
-for i=1,1000 do tmp=math.random(0,1000) end
-
---{{ random wallpapers for actual session
-wp_path = "/home/martin/.config/awesome/backgrounds/"
-wp_files = { "orig.png", "yoda.png" }
-
-for s = 1, screen.count() do
-  -- get random index
-  wp_index = math.random( 1, #wp_files)
-  -- set wallpaper to current screen
-  gears.wallpaper.maximized( wp_path .. wp_files[wp_index] , s, true)
-end
--- }}}
-
-
-
-
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {}
@@ -140,6 +121,23 @@ for s = 1, screen.count() do
     tags[s] = awful.tag({ "term", "browser", "mail", "foo", "bar"}, s, layouts[1])
 end
 -- }}}
+
+
+--- seed and "pop a few"
+math.randomseed(os.time())
+for i=1,1000 do tmp=math.random(0,1000) end
+
+--{{ random wallpapers for each tag
+wp_path = "/home/martin/.config/awesome/backgrounds/"
+wp_files = { "orig.png", "yoda.png" }
+wp_index = {}
+
+for t = 1, 9 do  wp_index[t] = math.random( 1, #wp_files)  end
+gears.wallpaper.maximized( wp_path .. wp_files[wp_index[1]] , s, true)
+-- }}}
+
+
+
 -- {{{ Menu
 -- Create a laucher widget and a main menu 
 myawesomemenu = {
@@ -349,7 +347,10 @@ mypromptbox = {}
 mylayoutbox = {}
 mytaglist = {}
 mytaglist.buttons = awful.util.table.join(
-                    awful.button({ }, 1, awful.tag.viewonly),
+                    awful.button({ }, 1, function(t) 
+			    awful.tag.viewonly(t) 
+		            gears.wallpaper.maximized( wp_path .. wp_files[wp_index[awful.tag.getidx(t)]] , s, true)
+		    end),
                     awful.button({ modkey }, 1, awful.client.movetotag),
                     awful.button({ }, 3, awful.tag.viewtoggle),
                     awful.button({ modkey }, 3, awful.client.toggletag),
@@ -643,6 +644,8 @@ for i = 1, 9 do
                         local tag = awful.tag.gettags(screen)[i]
                         if tag then
                            awful.tag.viewonly(tag)
+			   --set random wallpaper on current tag
+                           gears.wallpaper.maximized( wp_path .. wp_files[wp_index[i]] , s, true)
                         end
                   end),
         awful.key({ modkey, "Control" }, "#" .. i + 9,
