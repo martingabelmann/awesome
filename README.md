@@ -1,6 +1,8 @@
-# awesome
-my awesomeconfig and widgets. Some of them are selfmade and more ore less documented some are from the awesome-wiki (i'll try to mark them).  
+# AwesomeWM
+My Awesomeconfig and -widgets. Some of them are selfmade and more ore less documented, some are from the awesome-wiki (i'll try to mark them).  
 
+
+###  Table of contents
 * [features] (#features)
 	* [random wallpapers](#random-wallpapers)
 * [widgets](#widgets)
