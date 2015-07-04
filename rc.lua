@@ -302,27 +302,27 @@ batwidget:connect_signal("mouse::leave", function()
  
 
 --Create a weather widget
---weatherwidget = wibox.widget.textbox()
---weatherwidget:set_text(awful.util.pread("ansiweather -l Rastatt,DE -u metric -s false -d true|awk '{print $7, $8}'"))
---weathertimer = timer(
---   { timeout = 900 } -- Update every 15 minutes.
---)
---weathertimer:connect_signal(
---   "timeout", function()
---      weatherwidget:set_text(awful.util.pread("ansiweather|awk '{print $7, $8}'"))
---end)
+weatherwidget = wibox.widget.textbox()
+weatherwidget:set_text(awful.util.pread("ansiweather -l Rastatt,DE -u metric -s false -d true|awk '{print $7, $8}'"))
+weathertimer = timer(
+   { timeout = 900 } -- Update every 15 minutes.
+)
+weathertimer:connect_signal(
+   "timeout", function()
+      weatherwidget:set_text(awful.util.pread("ansiweather|awk '{print $7, $8}'"))
+end)
 
---weathertimer:start() -- Start the timer
---weatherwidget:connect_signal(
---   "mouse::enter", function()
---      weather = naughty.notify(
---         {title="Weather",text=awful.util.pread("ansiweather -f 5")})
---end) -- this creates the hover feature.
+weathertimer:start() -- Start the timer
+weatherwidget:connect_signal(
+   "mouse::enter", function()
+      weather = naughty.notify(
+         {title="Weather",text=awful.util.pread("ansiweather -f 5")})
+end) -- this creates the hover feature.
 
---weatherwidget:connect_signal(
---   "mouse::leave", function()
---      naughty.destroy(weather)
---end)
+weatherwidget:connect_signal(
+   "mouse::leave", function()
+      naughty.destroy(weather)
+end)
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -412,7 +412,7 @@ for s = 1, screen.count() do
 	end
 
 --    right_layout:add(mpdwidget)
--- right_layout:add(weatherwidget)
+    right_layout:add(weatherwidget)
     addicon(theme.vol)
     right_layout:add(volwidget)
     addicon(theme.wifi)
