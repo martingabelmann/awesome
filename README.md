@@ -1,14 +1,12 @@
 # awesome
-my awesomeconfig
+my awesomeconfig__
 
 ## random wallpapers
-*I wanted to have random wallpapers for each tag per session. So here they are.*
+*I wanted to have random wallpapers for each tag per session. So here they are.*__
 
 
 **Wallpaper section**
-First we generate a table with all wallpapers. Every tag gets assigned to one Wallpaper using a table filled with random indices.
-
-
+First we generate a table with all wallpapers. Every tag gets assigned to one Wallpaper using a table filled with random indices.__
 
 Replace
 ```lua
@@ -35,9 +33,7 @@ for t = 1, 9 do  wp_index[t] = math.random( 1, #wp_files)  end
 gears.wallpaper.maximized( wp_path .. wp_files[wp_index[1]] , s, true)
 -- }}}
 ```
-
-
-
+____
 
 **Wibox section**
 We just change the wallpaper on each tag-toggle.
@@ -53,8 +49,8 @@ awful.button({ }, 1, function(t)
                      gears.wallpaper.maximized( wp_path .. wp_files[wp_index[awful.tag.getidx(t)]] , s, true)
 end),
 ```
-
-**Keybindings section**
+__
+**Keybindings section**__
 if it's change with the keyboard, we need to replace
 ```lua
 function ()
@@ -77,7 +73,32 @@ function ()
                         end
 end),
 ```
-
-
-
 Now the wallpaper will change every time you swich the tag.
+
+#Weather Widget
+Im using the [ansiweather-git](https://github.com/fcambus/ansiweat) package from [archlinux  aur](https://aur.archlinux.org/packages/ansiweather-git/) to grep weather informations from the cli.__
+
+Just place the `weatherwidget` in your layout where you want.
+```lua
+weatherwidget = wibox.widget.textbox()
+weatherwidget:set_text(awful.util.pread("ansiweather -l Rastatt,DE -u metric -s false -d true|awk '{print $7, $8}'"))
+weathertimer = timer(
+   { timeout = 900 } -- Update every 15 minutes.
+)
+weathertimer:connect_signal(
+   "timeout", function()
+      weatherwidget:set_text(awful.util.pread("ansiweather|awk '{print $7, $8}'"))
+end)
+
+weathertimer:start() -- Start the timer
+weatherwidget:connect_signal(
+   "mouse::enter", function()
+      weather = naughty.notify(
+         {title="Weather",text=awful.util.pread("ansiweather -f 5")})
+end) -- this creates the hover feature.
+
+weatherwidget:connect_signal(
+   "mouse::leave", function()
+      naughty.destroy(weather)
+end)
+```
