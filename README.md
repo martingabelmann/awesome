@@ -5,6 +5,7 @@ My Awesomeconfig and -widgets. Some of them are selfmade and more ore less docum
 ###  Table of contents
 * [Features] (#features)
 	* [random wallpapers](#random-wallpapers)
+	* [dictionary](#dict)
 * [Widgets](#widgets)
 	* [weather](#weather-widget)
 	* [volbar](#volume-bar)
@@ -134,4 +135,21 @@ readvol()
 voltimer = timer({ timeout =1 })   
 voltimer:connect_signal("timeout", function() readvol(volwidget) end)
 voltimer:start()
-```
+```  
+
+# dict
+The cli-app [dictd](https://www.archlinux.org/packages/community/x86_64/dictd/) is doing all the jobs. I'm using the de-eng and eng-de libary for translation. One can also use other libaries like periodic tables, acronyms etc. (see dict -D).  
+  
+In the **keybindings**-section
+```lua
+ awful.key({ modkey}, "d", function ()
+        info = true
+        awful.prompt.run({prompt = "Dict: "}, mypromptbox[mouse.screen].widget,
+        function(word)
+               de = awful.util.pread("dict -d fd-deu-eng " .. word)
+             eng = awful.util.pread("dict -d fd-eng-deu " .. word)
+                naughty.notify({ text = "___DE-ENG___\n" .. de .. "\n\n___ENG-DE___\n" .. eng, timeout = 0, width = 400 })
+        end,
+        nil, awful.util.getdir("cache") .. "/dict")
+end),
+```  
