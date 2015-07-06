@@ -63,8 +63,12 @@ end
 
 
 -- {{{ Variable definitions
+
+-- path to awesome config
+awesome_home = "/home/martin/.config/awesome"
+
 -- Themes define colours, icons, and wallpapers
-beautiful.init("/home/martin/.config/awesome/themes/defaultmod/theme.lua")
+beautiful.init(awesome_home .. "/themes/defaultmod/theme.lua")
 
 
 --default applications for the menu
@@ -115,7 +119,7 @@ for i=1,1000 do tmp=math.random(0,1000) end
 
 --{{ random wallpapers for each tag
 --store all backgroundfiles in a table
-wp_path = "/home/martin/.config/awesome/backgrounds/"
+wp_path = awesome_home .. "/backgrounds/"
 wp_files = {}
 wp_count = 0
 for filename in io.popen('ls ' .. wp_path):lines() do
