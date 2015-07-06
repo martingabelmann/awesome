@@ -109,16 +109,22 @@ end
 -- }}}
 
 
---- seed and "pop a few"
+--- seed and pop a few
 math.randomseed(os.time())
 for i=1,1000 do tmp=math.random(0,1000) end
 
 --{{ random wallpapers for each tag
+--store all backgroundfiles in a table
 wp_path = "/home/martin/.config/awesome/backgrounds/"
-wp_files = { "orig.png", "yoda.png" }
+wp_files = {}
+wp_count = 0
+for filename in io.popen('ls ' .. wp_path):lines() do
+        wp_count = wp_count + 1
+	wp_files[wp_count] = filename
+end
 wp_index = {}
-
-for t = 1, 9 do  wp_index[t] = math.random( 1, #wp_files)  end
+--each tag gets a random wallpaper. the wallpaper changes if the tag does
+for t = 1, 9 do  wp_index[t] = math.random( 1, wp_count)  end
 gears.wallpaper.maximized( wp_path .. wp_files[wp_index[1]] , s, true)
 -- }}}
 
