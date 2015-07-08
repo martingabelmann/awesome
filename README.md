@@ -6,10 +6,10 @@ My Awesomeconfig and -widgets. Some of them are selfmade and more ore less docum
 * [Features] (#features)
 	* [random wallpapers](#random-wallpapers)
 	* [dictionary](#dict)
-* [Widgets](#Widgets)
-	* [weather](#Weather-Widget)
-	* [volbar](#Volume-Widget)
-        * [battery](#Battery-Widget)
+* [Widgets](#widgets)
+	* [weather](#weather-widget)
+	* [volbar](#volume-widget)
+	* [battery](#battery-widget)
 
 # features
 ## random wallpapers
