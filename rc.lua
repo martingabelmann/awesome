@@ -1,16 +1,27 @@
--- required applications:
--- .widget		|	app
---	bat		|	acpi
---	dict		|	dictd + eng-deu database
---	weather	|	weather
--- dmenu
--- dropdown terminal | scrachtpad https://bbs.archlinux.org/viewtopic.php?pid=1363085#p1363085
--- screenshots | ~/.bin/capscr
+--- {{{  martins awesomeconfig.
+-- this config bases on many tutorials from awesome.naquadah.org/wiki/Main_Page
+-- and many self-made things, docs at github.com/martingabelmann/awesome
+-- do whateverer you want with it.
+--- )))
+
+
+--- {{{ required applications
+--     widget		|	app
+--------------------------------------------------------------------------------------------------
+--	bat		|	acpi 
+--	dict		|	dictd + eng-deu database (arch-comm)
+--	weather	        |	ansiweather (arch-aur)
+-- dropdown terminal    |	scrachtpad https://bbs.archlinux.org/viewtopic.php?pid=1363085#p1363085
+-- screenshots          |	~/.bin/capscr (script that saves screenshot with timestamp)
+-------------------------------------------------------------------------------------------------
+--- }}}
 
 -- Standard awesome library
-local vicious = require("vicious")
 local gears = require("gears")
 local awful = require("awful")
+--vicious widgets
+local vicious = require("vicious")
+--scratchpad for dropdownterminal
 local scratch = require("scratch")
 awful.rules = require("awful.rules")
 require("awful.autofocus")
@@ -21,7 +32,7 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
---Help popup
+--Help popups
 require ("help/help")
 
 -- {{{ Useful Functions
@@ -117,7 +128,10 @@ end
 math.randomseed(os.time())
 for i=1,1000 do tmp=math.random(0,1000) end
 
---{{ random wallpapers for each tag
+--{{{ random wallpapers for each tag
+--the backgrounds-folder has to be filled with valid images,
+--awesome is doing the rest.
+
 --store all backgroundfiles in a table
 wp_path = awesome_home .. "/backgrounds/"
 wp_files = {}
@@ -126,8 +140,9 @@ for filename in io.popen('ls ' .. wp_path):lines() do
         wp_count = wp_count + 1
 	wp_files[wp_count] = filename
 end
-wp_index = {}
+
 --each tag gets a random wallpaper. the wallpaper changes if the tag does
+wp_index = {}
 for t = 1, 9 do  wp_index[t] = math.random( 1, wp_count)  end
 gears.wallpaper.maximized( wp_path .. wp_files[wp_index[1]] , s, true)
 -- }}}
@@ -166,7 +181,7 @@ appsmenu = {
         { "office", office },
 	{ "txt", txt }, 
 	{ "videoplayer", videoplayer },
-	{"skype", terminal .. "-e ALSA_OSS_PCM_DEVICE=skype aoss skype"}
+	{ "skype", terminal .. "-e ALSA_OSS_PCM_DEVICE=skype aoss skype"}
 }
 
 networkmenu = {
@@ -174,11 +189,11 @@ networkmenu = {
 }
 
 helpMenu = { 
-			 { "Awesome", function ()  help.displayHelp("Awesome") end }, 
+	     { "Awesome", function ()  help.displayHelp("Awesome") end }, 
              { "Luakit", function () help.displayHelp("Luakit") end },
              { "bash", function () help.displayHelp("bash") end },
              { "mc", function () help.displayHelp("mc") end }
-            }
+}
                        
 
 
@@ -187,24 +202,25 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, theme.awesomearc
 		                    { "sysconfig", sysconfigmenu},
 				    { "applications", appsmenu},
 				    { "network", networkmenu},
-				    {"help", helpMenu },
+				    { "help", helpMenu },
 				    { "open terminal", terminal },
                                   }
                         })
 
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
-                                     menu = mymainmenu })
+mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon, menu = mymainmenu })
+---}}}
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
-menubar.cache_entries = true
- menubar.app_folders = { "/usr/share/applications/" }
- menubar.show_categories = false   -- Change to false if you want only programs to appear in the menu
-
-
+menubar.cache_entries = true -- caching the icons
+menubar.app_folders = { "/usr/share/applications/" }
+menubar.show_categories = false 
 -- }}}
 
+
+
 -- {{{ Wibox
+
 -- Calendar widget
 require('calendar2')
 
@@ -214,30 +230,34 @@ mytextclock.border_width = 1
 mytextclock.border_color = beautiful.fg_normal 
 calendar2.addCalendarToWidget(mytextclock, "<span color='blue'>%s</span>")
 
--- FSwidget get free diskspace
+
+--- {{{ FSwidget get free diskspace
 --home mount 
 fs_home = awful.widget.textclock()
 vicious.register(fs_home, vicious.widgets.fs, "${/home avail_gb}GB")
-fs_home:connect_signal("mouse::enter", function()
+fs_home:connect_signal("mouse::enter", function() -- show device on mouseover
 dev = naughty.notify({title="dev",text="/home"})  end)
 fs_home:connect_signal("mouse::leave", function() naughty.destroy(dev) end)
 
 --root 
 fs_root = awful.widget.textclock()
 vicious.register(fs_root, vicious.widgets.fs, "${/ avail_gb}GB")
-fs_root:connect_signal("mouse::enter", function()
+fs_root:connect_signal("mouse::enter", function()  -- show device on mouseover
 dev = naughty.notify({title="dev",text="/"})  end)
 fs_root:connect_signal("mouse::leave", function() naughty.destroy(dev) end)
+--- }}}
 
--- Create Membar
+--- {{{ Memwidget
 memwidget = wibox.widget.textbox()
 vicious.register(memwidget, vicious.widgets.mem, "$1%", 13)
+--- }}}
 
---Create CPUbar
+--- {{{ CPUwidget
 cpuwidget = wibox.widget.textbox()
 vicious.register(cpuwidget, vicious.widgets.cpu, "$1%")
+--- }}}
 
--- Create Volbar
+--- {{{ Volumewidget
 function readvol()
 vol = round((awful.util.pread("cat /proc/acpi/ibm/volume | awk 'NR>0 && NR<2 {print $2}'"))*100/14,0)
 mutestatus = awful.util.pread("cat /proc/acpi/ibm/volume")
@@ -257,38 +277,37 @@ readvol()
 voltimer = timer({ timeout =1 }) 
 voltimer:connect_signal("timeout", function() readvol(volwidget) end)
 voltimer:start()
+--- }}}
 
 
---Create Batterybar
+--- {{{ Batterywidget
 batwidget = wibox.widget.textbox()
+--this functions parses the sys/class/power_supply files for capacity
+--if the capacity gets to low, a notification will appear
 function readbat()
-capacity = awful.util.pread("more -sflu /sys/class/power_supply/BAT0/capacity | tr -d '\n'") 
-charge_status = awful.util.pread("more -sflu /sys/class/power_supply/BAT0/status | tr -d '\n'") 
-
-batwidget:set_markup(capacity .. "%")
-
-if capacity < "15" and  not charge_status == "Charging" then 
-bat = naughty.notify({title="Battery low!!!",text=awful.util.pread("acpi"),fg="#C00000", icon=theme.lowbat}) 
-batwidget:connect_signal("mouse::enter", function() 
-    naughty.destroy(bat) 
-end)
-end
+	capacity = awful.util.pread("more -sflu /sys/class/power_supply/BAT0/capacity | tr -d '\n'") 
+	charge_status = awful.util.pread("more -sflu /sys/class/power_supply/BAT0/status | tr -d '\n'") 
+	batwidget:set_markup(capacity .. "%")
+	
+	if capacity < "20" and  not charge_status == "Charging" then 
+		bat = naughty.notify({title="Battery low!!!",text=awful.util.pread("acpi"),fg="#C00000", icon=theme.lowbat}) 
+		batwidget:connect_signal("mouse::enter", function() naughty.destroy(bat) end)
+	end
 end
 
 readbat()
-
+--renew the batterystatus every ten sec
 batimer = timer({ timeout =10 }) 
 batimer:connect_signal("timeout", function() readbat(batwidget) end)
 batimer:start()
-
+--detailed battery-informations on mouseover
 batwidget:connect_signal("mouse::enter", function() 
 bat = naughty.notify({title="Batterystatus",text=awful.util.pread("acpi")})  end)
-batwidget:connect_signal("mouse::leave", function() 
-    naughty.destroy(bat) 
-  end) 
- 
+batwidget:connect_signal("mouse::leave", function() naughty.destroy(bat) end) 
+--- }}}
 
---Create a weather widget
+
+--- {{{ weather widget
 weatherwidget = wibox.widget.textbox()
 weatherwidget:set_text(awful.util.pread("ansiweather -l Rastatt,DE -u metric -s false -d true|awk '{print $7, $8}'"))
 weathertimer = timer(
@@ -310,6 +329,8 @@ weatherwidget:connect_signal(
    "mouse::leave", function()
       naughty.destroy(weather)
 end)
+--- }}}
+
 
 -- Create a wibox for each screen and add it
 mywibox = {}
