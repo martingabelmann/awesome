@@ -289,7 +289,7 @@ function readbat()
 	charge_status = awful.util.pread("more -sflu /sys/class/power_supply/BAT0/status | tr -d '\n'") 
 	batwidget:set_markup(capacity .. "%")
 	
-	if capacity < "20" and  not charge_status == "Charging" then 
+	if capacity < "20" and charge_status == "Discharging" then 
 		bat = naughty.notify({title="Battery low!!!",text=awful.util.pread("acpi"),fg="#C00000", icon=theme.lowbat}) 
 		batwidget:connect_signal("mouse::enter", function() naughty.destroy(bat) end)
 	end

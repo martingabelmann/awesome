@@ -89,7 +89,25 @@ end),
 ```
 Now the wallpaper will change every time you swich the tag, which will look like every tag has its own (random) wallpaper.
 
-##Weather Widget
+# dict
+The cli-app [dictd](https://www.archlinux.org/packages/community/x86_64/dictd/) is doing all the jobs. I'm using the de-eng and eng-de libary for translation. One can also use other libaries like periodic tables, acronyms etc. (see dict -D).  
+  
+In the **keybindings**-section
+```lua
+ awful.key({ modkey}, "d", function ()
+        info = true
+        awful.prompt.run({prompt = "Dict: "}, mypromptbox[mouse.screen].widget,
+        function(word)
+               de = awful.util.pread("dict -d fd-deu-eng " .. word)
+             eng = awful.util.pread("dict -d fd-eng-deu " .. word)
+                naughty.notify({ text = "___DE-ENG___\n" .. de .. "\n\n___ENG-DE___\n" .. eng, timeout = 0, width = 400 })
+        end,
+        nil, awful.util.getdir("cache") .. "/dict")
+end),
+```
+
+# Widgets  
+## Weather Widget
 Im using the [ansiweather-git](https://github.com/fcambus/ansiweat) package from [archlinux  aur](https://aur.archlinux.org/packages/ansiweather-git/) to grep weather informations from the cli.  
 
 Just place the `weatherwidget` in your layout where you want.
@@ -117,7 +135,7 @@ weatherwidget:connect_signal(
 end)
 ```
 
-## volume bar
+## Volumewidget
 Im using hardwarebuttons to control the audio volume, so i just have to know the audio-level and mute-status. For my thinkpad this information is stored at '/proc/acpi/volume'. The file is been parsed every half second and echoed in a textbox.
 
 ```lua
@@ -143,19 +161,30 @@ voltimer:connect_signal("timeout", function() readvol(volwidget) end)
 voltimer:start()
 ```  
 
-# dict
-The cli-app [dictd](https://www.archlinux.org/packages/community/x86_64/dictd/) is doing all the jobs. I'm using the de-eng and eng-de libary for translation. One can also use other libaries like periodic tables, acronyms etc. (see dict -D).  
-  
-In the **keybindings**-section
+## Batterywidget
+Im parsing the files at /sys/class/power_supply for getting the capacity and charge-status.
+If in Batterymode and less than 20% a notification will appear.
+
 ```lua
- awful.key({ modkey}, "d", function ()
-        info = true
-        awful.prompt.run({prompt = "Dict: "}, mypromptbox[mouse.screen].widget,
-        function(word)
-               de = awful.util.pread("dict -d fd-deu-eng " .. word)
-             eng = awful.util.pread("dict -d fd-eng-deu " .. word)
-                naughty.notify({ text = "___DE-ENG___\n" .. de .. "\n\n___ENG-DE___\n" .. eng, timeout = 0, width = 400 })
-        end,
-        nil, awful.util.getdir("cache") .. "/dict")
-end),
-```  
+batwidget = wibox.widget.textbox()
+function readbat()
+        capacity = awful.util.pread("more -sflu /sys/class/power_supply/BAT0/capacity | tr -d '\n'")
+        charge_status = awful.util.pread("more -sflu /sys/class/power_supply/BAT0/status | tr -d '\n'")
+        batwidget:set_markup(capacity .. "%")
+
+        if capacity < "20" and  charge_status == "Discharging" then
+                bat = naughty.notify({title="Battery low!!!",text=awful.util.pread("acpi"),fg="#C00000", icon=theme.lowbat})
+                batwidget:connect_signal("mouse::enter", function() naughty.destroy(bat) end)
+        end
+end
+
+readbat()
+--renew the batterystatus every ten sec
+batimer = timer({ timeout =10 })
+batimer:connect_signal("timeout", function() readbat(batwidget) end)
+batimer:start()
+--detailed battery-informations on mouseover
+batwidget:connect_signal("mouse::enter", function()
+bat = naughty.notify({title="Batterystatus",text=awful.util.pread("acpi")})  end)
+batwidget:connect_signal("mouse::leave", function() naughty.destroy(bat) end)
+```
