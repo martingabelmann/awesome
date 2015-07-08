@@ -6,9 +6,10 @@ My Awesomeconfig and -widgets. Some of them are selfmade and more ore less docum
 * [Features] (#features)
 	* [random wallpapers](#random-wallpapers)
 	* [dictionary](#dict)
-* [Widgets](#widgets)
-	* [weather](#weather-widget)
-	* [volbar](#volume-bar)
+* [Widgets](#Widgets)
+	* [weather](#Weather-Widget)
+	* [volbar](#Volume-Widget)
+        * [battery](#Battery-Widget)
 
 # features
 ## random wallpapers
@@ -135,7 +136,7 @@ weatherwidget:connect_signal(
 end)
 ```
 
-## Volumewidget
+## Volume Widget
 Im using hardwarebuttons to control the audio volume, so i just have to know the audio-level and mute-status. For my thinkpad this information is stored at '/proc/acpi/volume'. The file is been parsed every half second and echoed in a textbox.
 
 ```lua
@@ -161,7 +162,7 @@ voltimer:connect_signal("timeout", function() readvol(volwidget) end)
 voltimer:start()
 ```  
 
-## Batterywidget
+## Battery Widget
 Im parsing the files at /sys/class/power_supply for getting the capacity and charge-status.
 If in Batterymode and less than 20% a notification will appear.
 
