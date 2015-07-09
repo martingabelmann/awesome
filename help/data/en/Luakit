@@ -1,0 +1,29 @@
+o - open in same tab.
+O - open in same tab with current url.
+t - open in new tab.
+T - open in new tab with current url.
+w - open in new window.
+W - open in new window with cirrent url.
+d - close current tab
+u - undo close tab
+
+j - scroll down.
+k - scroll up.
+h - scroll left.
+l - scroll right.
+gg - go to top of the page
+
+
+gs - go to speeddial in current tab.
+gS - go to speeddial in new tab.
+ga - (and draw rectangle) add current url to speeddial.
+
+[1-9]gt - go to tab numer [1-9].
+
+/ - search forwards.
+? - search backwards.
+
+M[a-zA-Z] - add current url to quickmark [a-yA-Z].
+go[a-zA-Z] - open quickmark.
+gn[a-zA-Z] - open quickmark in new tab.
+:qmarks - manage quickmarks.
