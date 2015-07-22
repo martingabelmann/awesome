@@ -37,12 +37,12 @@ require ("help/help")
 
 -- {{{ Useful Functions
 function trim(s, count)
-  return (string.sub(s, 1, count) .. "...")
+    return (string.sub(s, 1, count) .. "...")
 end
 
 function round(num, idp)
-  local mult = 10^(idp or 0)
-  return math.floor(num * mult + 0.5) / mult
+    local mult = 10^(idp or 0)
+    return math.floor(num * mult + 0.5) / mult
 end
 
 -- }}}
@@ -52,8 +52,8 @@ end
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
     naughty.notify({ preset = naughty.config.presets.critical,
-                     title = "Oops, there were errors during startup!",
-                     text = awesome.startup_errors })
+    title = "Oops, there were errors during startup!",
+    text = awesome.startup_errors })
 end
 
 -- Handle runtime errors after startup
@@ -103,9 +103,7 @@ office = "libreoffice"
 modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
-local layouts =
-{
-
+local layouts = {
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.fair.horizontal,
@@ -137,11 +135,11 @@ wp_path = awesome_home .. "/backgrounds/"
 wp_files = {}
 wp_count = 0
 for filename in io.popen('ls ' .. wp_path):lines() do
-        wp_count = wp_count + 1
+    wp_count = wp_count + 1
 	wp_files[wp_count] = filename
 end
 
---each tag gets a random wallpaper. the wallpaper changes if the tag does
+--each tag gets a random wallpaper, later the wallpaper will be changed if the tag does
 wp_index = {}
 for t = 1, 9 do  wp_index[t] = math.random( 1, wp_count)  end
 gears.wallpaper.maximized( wp_path .. wp_files[wp_index[1]] , s, true)
@@ -152,60 +150,61 @@ gears.wallpaper.maximized( wp_path .. wp_files[wp_index[1]] , s, true)
 -- {{{ Menu
 -- Create a laucher widget and a main menu 
 myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", txt .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", awesome.quit }
+    { "manual", terminal .. " -e man awesome" },
+    { "edit config", txt .. " " .. awesome.conffile },
+    { "restart", awesome.restart },
+    { "quit", awesome.quit }
 }
 
 myarchmenu = {
-	    { "poweroff", terminal .. " -e systemctl poweroff -i" },
-	    { "reboot", terminal .. " -e systemctl reboot -i"},
-	    { "standby", terminal .. " -e systemctl suspend" },
-	    { "lock screen", terminal .. " -e slock" },
-	    { "update -Syu", terminal .. " -hold -e sudo pacman -Syu" }
-
+    { "poweroff", terminal .. " -e systemctl poweroff -i" },
+    { "reboot", terminal .. " -e systemctl reboot -i"},
+    { "standby", terminal .. " -e systemctl suspend" },
+    { "lock screen", terminal .. " -e slock" },
+    { "update -Syu", terminal .. " -hold -e sudo pacman -Syu" }
 }
 
 sysconfigmenu = {
-   { "nmtui", terminal .. " -e nmtui" },
-   { "AlsaMixer", terminal .. " -e alsamixer" }
+    { "nmtui", terminal .. " -e nmtui" },
+    { "AlsaMixer", terminal .. " -e alsamixer" }
 }
 
 appsmenu = {
-	{ "browser", browser },
-	{ "filemanager", terminal .. " -e mc -S dark" },
-	--{ "filemanager", terminal .. " -e mc -sb" },
-	{ "mail", mail },
-        { "musicplayer", music },
-        { "office", office },
-	{ "txt", txt }, 
-	{ "videoplayer", videoplayer },
-	{ "skype", terminal .. "-e ALSA_OSS_PCM_DEVICE=skype aoss skype"}
+    { "browser", browser },
+    { "filemanager", terminal .. " -e mc -S dark" },
+    --{ "filemanager", terminal .. " -e mc -sb" },
+    { "mail", mail },
+    { "musicplayer", music },
+    { "office", office },
+    { "txt", txt }, 
+    { "videoplayer", videoplayer },
+    { "skype", terminal .. "-e ALSA_OSS_PCM_DEVICE=skype aoss skype"}
 }
 
 networkmenu = {
-	{ "wol htpc", terminal .. " -hold -e wol 00:1e:90:f8:b5:f8" },
+    { "wol htpc", terminal .. " -hold -e wol 00:1e:90:f8:b5:f8" },
 }
 
-helpMenu = { 
-	     { "Awesome", function ()  help.displayHelp("Awesome") end }, 
-             { "Luakit", function () help.displayHelp("Luakit") end },
-             { "bash", function () help.displayHelp("bash") end },
-             { "mc", function () help.displayHelp("mc") end }
+helpmenu = { 
+    { "awesome", function ()  help.displayHelp("Awesome") end }, 
+    { "luakit", function () help.displayHelp("Luakit") end },
+    { "bash", function () help.displayHelp("bash") end },
+    { "mc", function () help.displayHelp("mc") end }
 }
                        
 
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, theme.awesomearch_icon },
-                                    { "arch", myarchmenu, theme.arch_icon },
-		                    { "sysconfig", sysconfigmenu},
-				    { "applications", appsmenu},
-				    { "network", networkmenu},
-				    { "help", helpMenu },
-				    { "open terminal", terminal },
-                                  }
-                        })
+mymainmenu = awful.menu({ 
+    items = { 
+        { "awesome", myawesomemenu, theme.awesomearch_icon },
+        { "arch", myarchmenu, theme.arch_icon },
+        { "sysconfig", sysconfigmenu},
+        { "applications", appsmenu},
+        { "network", networkmenu},
+        { "help", helpmenu },
+        { "open terminal", terminal },
+    }
+})
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon, menu = mymainmenu })
 ---}}}
@@ -235,15 +234,16 @@ calendar2.addCalendarToWidget(mytextclock, "<span color='blue'>%s</span>")
 --home mount 
 fs_home = awful.widget.textclock()
 vicious.register(fs_home, vicious.widgets.fs, "${/home avail_gb}GB")
-fs_home:connect_signal("mouse::enter", function() -- show device on mouseover
-dev = naughty.notify({title="dev",text="/home"})  end)
+fs_home:connect_signal("mouse::enter", function()
+    dev = naughty.notify({title="dev",text="/home"})  -- show device on mouseover
+end)
 fs_home:connect_signal("mouse::leave", function() naughty.destroy(dev) end)
 
 --root 
 fs_root = awful.widget.textclock()
 vicious.register(fs_root, vicious.widgets.fs, "${/ avail_gb}GB")
-fs_root:connect_signal("mouse::enter", function()  -- show device on mouseover
-dev = naughty.notify({title="dev",text="/"})  end)
+fs_root:connect_signal("mouse::enter", function() 
+    dev = naughty.notify({title="dev",text="/"})  end) -- show device on mouseover
 fs_root:connect_signal("mouse::leave", function() naughty.destroy(dev) end)
 --- }}}
 
@@ -259,17 +259,17 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1%")
 
 --- {{{ Volumewidget
 function readvol()
-vol = round((awful.util.pread("cat /proc/acpi/ibm/volume | awk 'NR>0 && NR<2 {print $2}'"))*100/14,0)
-mutestatus = awful.util.pread("cat /proc/acpi/ibm/volume")
+    vol = round((awful.util.pread("cat /proc/acpi/ibm/volume | awk 'NR>0 && NR<2 {print $2}'"))*100/14,0)
+    mutestatus = awful.util.pread("cat /proc/acpi/ibm/volume")
 
-if string.find(mutestatus, "on", 1, true) then
-	volcolor = theme.fg_focus
-else 
-	volcolor = theme.fg_normal
-end
+    if string.find(mutestatus, "on", 1, true) then
+        volcolor = theme.fg_focus
+    else 
+        volcolor = theme.fg_normal
+    end
 
-volume = "<span color='" .. volcolor .. "'>" .. vol .. "% </span>"
-volwidget:set_markup(volume)
+    volume = "<span color='" .. volcolor .. "'>" .. vol .. "% </span>"
+    volwidget:set_markup(volume)
 end
 
 volwidget = wibox.widget.textbox()
@@ -285,14 +285,14 @@ batwidget = wibox.widget.textbox()
 --this functions parses the sys/class/power_supply files for capacity
 --if the capacity gets to low, a notification will appear
 function readbat()
-	capacity = awful.util.pread("more -sflu /sys/class/power_supply/BAT0/capacity | tr -d '\n'") 
-	charge_status = awful.util.pread("more -sflu /sys/class/power_supply/BAT0/status | tr -d '\n'") 
-	batwidget:set_markup(capacity .. "%")
+    capacity = awful.util.pread("more -sflu /sys/class/power_supply/BAT0/capacity | tr -d '\n'") 
+    charge_status = awful.util.pread("more -sflu /sys/class/power_supply/BAT0/status | tr -d '\n'") 
+    batwidget:set_markup(capacity .. "%")
 	
-	if capacity < "20" and charge_status == "Discharging" then 
-		bat = naughty.notify({title="Battery low!!!",text=awful.util.pread("acpi"),fg="#C00000", icon=theme.lowbat}) 
-		batwidget:connect_signal("mouse::enter", function() naughty.destroy(bat) end)
-	end
+    if capacity < "20" and charge_status == "Discharging" then 
+        bat = naughty.notify({title="Battery low!!!",text=awful.util.pread("acpi"),fg="#C00000", icon=theme.lowbat}) 
+        batwidget:connect_signal("mouse::enter", function() naughty.destroy(bat) end)
+    end
 end
 
 readbat()
@@ -302,7 +302,8 @@ batimer:connect_signal("timeout", function() readbat(batwidget) end)
 batimer:start()
 --detailed battery-informations on mouseover
 batwidget:connect_signal("mouse::enter", function() 
-bat = naughty.notify({title="Batterystatus",text=awful.util.pread("acpi")})  end)
+    bat = naughty.notify({title="Batterystatus",text=awful.util.pread("acpi")})  
+end)
 batwidget:connect_signal("mouse::leave", function() naughty.destroy(bat) end) 
 --- }}}
 
@@ -310,10 +311,8 @@ batwidget:connect_signal("mouse::leave", function() naughty.destroy(bat) end)
 --- {{{ weather widget
 weatherwidget = wibox.widget.textbox()
 weatherwidget:set_text(awful.util.pread("ansiweather -l Rastatt,DE -u metric -s false|awk '{print $7, $8}'"))
-weathertimer = timer(
-   { timeout = 900 } -- Update every 15 minutes.
-)
-weathertimer:start() -- Start the timer
+weathertimer = timer( { timeout = 900 } ) -- Update every 15 minutes.
+weathertimer:start() 
 --- }}}
 
 
@@ -324,10 +323,10 @@ mylayoutbox = {}
 mytaglist = {}
 mytaglist.buttons = awful.util.table.join(
                     awful.button({ }, 1, function(t) 
-			    awful.tag.viewonly(t)
-			    --set random wallpaper for toggeled tag
-		            gears.wallpaper.maximized( wp_path .. wp_files[wp_index[awful.tag.getidx(t)]] , s, true)
-		    end),
+			            awful.tag.viewonly(t)
+			            --set random wallpaper for toggeled tag
+		                gears.wallpaper.maximized( wp_path .. wp_files[wp_index[awful.tag.getidx(t)]] , s, true)
+		            end),
                     awful.button({ modkey }, 1, awful.client.movetotag),
                     awful.button({ }, 3, awful.tag.viewtoggle),
                     awful.button({ modkey }, 3, awful.client.toggletag),
@@ -570,7 +569,7 @@ awful.key({ modkey, "Shift"   }, ",",
  awful.key({ modkey, "Shift"   }, ".",
    function (c)
        local curidx = awful.tag.getidx()
-       if curidx == 9 then
+       if curidx == 5 then
            awful.client.movetotag(tags[client.focus.screen][1])
        else
            awful.client.movetotag(tags[client.focus.screen][curidx + 1])
@@ -590,7 +589,7 @@ for i = 1, 9 do
                         local tag = awful.tag.gettags(screen)[i]
                         if tag then
                            awful.tag.viewonly(tag)
-			   --set random wallpaper on current tag
+                           --set random wallpaper on current tag
                            gears.wallpaper.maximized( wp_path .. wp_files[wp_index[i]] , s, true)
                         end
                   end),
