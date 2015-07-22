@@ -83,7 +83,7 @@ beautiful.init(awesome_home .. "/themes/defaultmod/theme.lua")
 
 
 --default applications for the menu
-terminal = "xterm"
+terminal = "xfce4-terminal"
 editor = "vim"
 editor_cmd = terminal .. " -e " .. editor
 filemanager = "mc"
@@ -309,26 +309,11 @@ batwidget:connect_signal("mouse::leave", function() naughty.destroy(bat) end)
 
 --- {{{ weather widget
 weatherwidget = wibox.widget.textbox()
-weatherwidget:set_text(awful.util.pread("ansiweather -l Rastatt,DE -u metric -s false -d true|awk '{print $7, $8}'"))
+weatherwidget:set_text(awful.util.pread("ansiweather -l Rastatt,DE -u metric -s false|awk '{print $7, $8}'"))
 weathertimer = timer(
    { timeout = 900 } -- Update every 15 minutes.
 )
-weathertimer:connect_signal(
-   "timeout", function()
-      weatherwidget:set_text(awful.util.pread("ansiweather|awk '{print $7, $8}'"))
-end)
-
 weathertimer:start() -- Start the timer
-weatherwidget:connect_signal(
-   "mouse::enter", function()
-      weather = naughty.notify(
-         {title="Weather",text=awful.util.pread("ansiweather -f 5")})
-end) -- this creates the hover feature.
-
-weatherwidget:connect_signal(
-   "mouse::leave", function()
-      naughty.destroy(weather)
-end)
 --- }}}
 
 
