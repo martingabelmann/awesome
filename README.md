@@ -11,12 +11,12 @@ My Awesomeconfig and -widgets. Some of them are selfmade and more ore less docum
 	* [weather](#weather-widget)
 	* [volbar](#volume-widget)
 	* [battery](#battery-widget)
-* [ToDo](#ToDo)
+* [ToDo](#todo)
 
 # Variables
 Additional variables:
-	* ``awesome_home`` usually /home/username/.config/awesome
-	* maybe there will be more
+ *  ``awesome_home``= ``/home/username/.config/awesome``
+ * maybe there will be more
 
 # features
 ## random wallpapers
