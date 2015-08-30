@@ -3,14 +3,15 @@ My Awesomeconfig and -widgets. Some of them are selfmade and more ore less docum
 
 
 ###  Table of contents
-* [Variables] (#variables)
-* [Features] (#features)
+* [Variables](#variables)
+* [Features](#features)
 	* [random wallpapers](#random-wallpapers)
 	* [dictionary](#dict)
 * [Widgets](#widgets)
 	* [weather](#weather-widget)
 	* [volbar](#volume-widget)
 	* [battery](#battery-widget)
+* [ToDo](#ToDo)
 
 # Variables
 Additional variables:
@@ -196,3 +197,9 @@ batwidget:connect_signal("mouse::enter", function()
 bat = naughty.notify({title="Batterystatus",text=awful.util.pread("acpi")})  end)
 batwidget:connect_signal("mouse::leave", function() naughty.destroy(bat) end)
 ```
+# ToDo
+ * variable terminal
+ * application-array that generates menus and spawn commands
+ * weather widget with better metrics
+
+
