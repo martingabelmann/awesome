@@ -10,5 +10,5 @@
 
 -- ror.lua
 table5={
-  ["v"]={"xterm -T Dropdown -n Dropdown", "Dropdown", "XTerm"},
+  ["v"]={"xfce4-terminal -T Dropdown -n Dropdown", "Dropdown", "xfce4-terminal"},
 }

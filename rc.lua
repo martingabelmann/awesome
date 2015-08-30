@@ -85,7 +85,7 @@ beautiful.init(awesome_home .. "/themes/defaultmod/theme.lua")
 --default applications for the menu
 terminal = "xfce4-terminal"
 editor = "vim"
-editor_cmd = terminal .. " -e " .. editor
+editor_cmd = terminal .. " -x " .. editor
 filemanager = "mc"
 txt = "vim"
 browser = "luakit"
@@ -150,28 +150,28 @@ gears.wallpaper.maximized( wp_path .. wp_files[wp_index[1]] , s, true)
 -- {{{ Menu
 -- Create a laucher widget and a main menu 
 myawesomemenu = {
-    { "manual", terminal .. " -e man awesome" },
+    { "manual", terminal .. " -x man awesome" },
     { "edit config", txt .. " " .. awesome.conffile },
     { "restart", awesome.restart },
     { "quit", awesome.quit }
 }
 
 myarchmenu = {
-    { "poweroff", terminal .. " -e systemctl poweroff -i" },
-    { "reboot", terminal .. " -e systemctl reboot -i"},
-    { "standby", terminal .. " -e systemctl suspend" },
-    { "lock screen", terminal .. " -e slock" },
-    { "update -Syu", terminal .. " -hold -e sudo pacman -Syu" }
+    { "poweroff", terminal .. " -x systemctl poweroff -i" },
+    { "reboot", terminal .. " -x systemctl reboot -i"},
+    { "standby", terminal .. " -x systemctl suspend" },
+    { "lock screen", terminal .. " -x slock" },
+    { "update -Syu", terminal .. " -hold -x sudo pacman -Syu" }
 }
 
 sysconfigmenu = {
-    { "nmtui", terminal .. " -e nmtui" },
-    { "AlsaMixer", terminal .. " -e alsamixer" }
+    { "nmtui", terminal .. " -x nmtui" },
+    { "AlsaMixer", terminal .. " -x alsamixer" }
 }
 
 appsmenu = {
     { "browser", browser },
-    { "filemanager", terminal .. " -e mc -S dark" },
+    { "filemanager", terminal .. " -x mc -S dark" },
     --{ "filemanager", terminal .. " -e mc -sb" },
     { "mail", mail },
     { "musicplayer", music },
@@ -182,7 +182,7 @@ appsmenu = {
 }
 
 networkmenu = {
-    { "wol htpc", terminal .. " -hold -e wol 00:1e:90:f8:b5:f8" },
+    { "wol htpc", terminal .. " -hold -x wol 00:1e:90:f8:b5:f8" },
 }
 
 helpmenu = { 
@@ -492,7 +492,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
     --Dropdownterminal
-    awful.key({ modkey }, "v", function () scratch.drop("xterm", "bottom") end),
+    awful.key({ modkey }, "v", function () scratch.drop(terminal, "bottom") end),
 
         -- Calculator
     awful.key({ modkey            }, "c", function ()

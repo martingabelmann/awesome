@@ -3,6 +3,7 @@ My Awesomeconfig and -widgets. Some of them are selfmade and more ore less docum
 
 
 ###  Table of contents
+* [Variables] (#variables)
 * [Features] (#features)
 	* [random wallpapers](#random-wallpapers)
 	* [dictionary](#dict)
@@ -11,13 +12,19 @@ My Awesomeconfig and -widgets. Some of them are selfmade and more ore less docum
 	* [volbar](#volume-widget)
 	* [battery](#battery-widget)
 
+# Variables
+Additional variables:
+	* ``awesome_home`` usually /home/username/.config/awesome
+	* maybe there will be more
+
 # features
 ## random wallpapers
 *I wanted to have random wallpapers for each tag per session. So here they are.*  
+ 
+First we generate a table with all image files stored in ``awesome_home .. '/backgrounds/'``. Every tag gets assigned to one Wallpaper using a table filled with random indices.
   
 **Wallpaper section**
-First we generate a table with all wallpapers. Every tag gets assigned to one Wallpaper using a table filled with random indices.  
-  
+ 
 Replace
 ```lua
 -- {{{ Wallpaper
