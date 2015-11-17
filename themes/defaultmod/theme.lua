@@ -1,6 +1,6 @@
----------------------------
--- Default awesome theme --
----------------------------
+------------------------------------
+-- Modified default awesome theme --
+------------------------------------
 
 theme = {}
 
@@ -16,6 +16,11 @@ theme.fg_normal     = "#aaaaaa"
 theme.fg_focus      = "#7788af"
 theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#ffffff"
+
+-- keycode widget
+theme.fg_widget_value = "#ffffff"
+theme.fg_widget_value_important = "#7788af"
+theme.fg_widget_clock = "#aaaaaa"
 
 theme.border_width  = 1
 theme.border_normal = "#000000"

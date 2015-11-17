@@ -31,9 +31,12 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
+
 local menubar = require("menubar")
---Help popups
-require ("help/help")
+
+-- Document Keybindings
+-- source: http://awesome.naquadah.org/wiki/Document_keybindings
+local keydoc = require("keydoc")
 
 -- {{{ Useful Functions
 function trim(s, count)
@@ -185,13 +188,6 @@ networkmenu = {
     { "wol htpc", terminal .. " -hold -x wol 00:1e:90:f8:b5:f8" },
 }
 
-helpmenu = { 
-    { "awesome", function ()  help.displayHelp("Awesome") end }, 
-    { "luakit", function () help.displayHelp("Luakit") end },
-    { "bash", function () help.displayHelp("bash") end },
-    { "mc", function () help.displayHelp("mc") end }
-}
-                       
 
 
 mymainmenu = awful.menu({ 
@@ -201,7 +197,6 @@ mymainmenu = awful.menu({
         { "sysconfig", sysconfigmenu},
         { "applications", appsmenu},
         { "network", networkmenu},
-        { "help", helpmenu },
         { "open terminal", terminal },
     }
 })
@@ -443,7 +438,7 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-
+    keydoc.group("Misc"),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
@@ -459,14 +454,16 @@ globalkeys = awful.util.table.join(
             if client.focus then client.focus:raise() end
         end),
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
--- bind PrintScrn to capture a screen
+    
+    -- bind PrintScrn to capture a screen
     awful.key({				}, "Print", function() awful.util.spawn("capscr",false) end),
 
     -- Layout manipulation
-    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
-    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
-    awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
-    awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
+    keydoc.group("Layout manipulation"),
+    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end, "Swap with next window"),
+    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end, "Swap with previous window"),
+    awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end, "Focus left screen"),
+    awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end, "Focus right screen"),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
         function ()
@@ -477,22 +474,27 @@ globalkeys = awful.util.table.join(
         end),
 
     -- Standard program
+    keydoc.group("Standard program"),
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
-    awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
+    awful.key({ modkey, "Control" }, "r", awesome.restart, "Restart awesome"),
+    awful.key({ modkey, "Shift"   }, "q", awesome.quit, "Quit awesome"),
 
-    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
-    awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
+    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end, "Resize window by factor 5%"),
+    awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end, "Resize window by factor -5%"),
     awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
     awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
     awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
+    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end, "Next layout"),
+    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end, "Previous layout"),
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
-
+    
+    keydoc.group("Widgets"),
+    
+    awful.key({ modkey, }, "F1", keydoc.display, "Show this message"),
+    
     --Dropdownterminal
-    awful.key({ modkey }, "v", function () scratch.drop(terminal, "bottom") end),
+    awful.key({ modkey }, "v", function () scratch.drop(terminal, "bottom") end, "Dropdown terminal"),
 
         -- Calculator
     awful.key({ modkey            }, "c", function ()
@@ -502,7 +504,7 @@ globalkeys = awful.util.table.join(
                 naughty.notify({ text = expr .. " = " .. result, timeout = 10 })
             end
         )
-    end),
+    end, "Calculator"),
 
  -- Dictionary
  awful.key({ modkey}, "d", function ()
@@ -514,7 +516,7 @@ globalkeys = awful.util.table.join(
                 naughty.notify({ text = "___DE-ENG___\n" .. de .. "\n\n___ENG-DE___\n" .. eng, timeout = 0, width = 400 })
         end,
         nil, awful.util.getdir("cache") .. "/dict") 
-end),
+end, "Dictionary"),
 
     -- Websearch
     awful.key({ modkey }, "s", function ()
@@ -524,7 +526,7 @@ end),
                 -- Switch to the web tag, where Browser is, in this case tag 2
                 if tags[mouse.screen][2] then awful.tag.viewonly(tags[mouse.screen][2]) end
             end)
-    end),
+    end, "Websearch"),
 
     awful.key({ modkey }, "x",
               function ()
@@ -535,7 +537,7 @@ end),
               end),
               
     -- Menubar
-    awful.key({ modkey }, "r", function() menubar.show() end)
+    awful.key({ modkey }, "r", function() menubar.show() end, "Menubar")
     
     )
 
