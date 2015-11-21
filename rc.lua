@@ -16,6 +16,9 @@
 -------------------------------------------------------------------------------------------------
 --- }}}
 
+
+
+--- {{{ Grap the environment
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -31,12 +34,12 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
-
+-- Menubar
 local menubar = require("menubar")
-
 -- Document Keybindings
 -- source: http://awesome.naquadah.org/wiki/Document_keybindings
 local keydoc = require("keydoc")
+--- }}}
 
 -- {{{ Useful Functions
 function trim(s, count)
@@ -47,7 +50,6 @@ function round(num, idp)
     local mult = 10^(idp or 0)
     return math.floor(num * mult + 0.5) / mult
 end
-
 -- }}}
 
 -- {{{ Error handling
@@ -75,66 +77,25 @@ do
 end
 -- }}}
 
+-- User vars and configs
+require('config')
 
--- {{{ Variable definitions
-
--- path to awesome config
-awesome_home = "/home/martin/.config/awesome"
-
--- Themes define colours, icons, and wallpapers
-beautiful.init(awesome_home .. "/themes/defaultmod/theme.lua")
-
-
---default applications for the menu
-terminal = "xfce4-terminal"
-editor = "vim"
-editor_cmd = terminal .. " -x " .. editor
-filemanager = "mc"
-txt = "vim"
-browser = "luakit"
-videoplayer = "vlc"
-mail = "thunderbird"
-music = "vlc"
-office = "libreoffice"
-
-
--- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
-
--- Table of layouts to cover with awful.layout.inc, order matters.
-local layouts = {
-    awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.max,
-    awful.layout.suit.floating
-}
--- }}}
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "term", "browser", "mail", "foo", "bar"}, s, layouts[1])
+    tags[s] = awful.tag(taglist, s, layouts[1])
 end
 -- }}}
 
-
---- seed and pop a few
-math.randomseed(os.time())
-for i=1,1000 do tmp=math.random(0,1000) end
 
 --{{{ random wallpapers for each tag
 --the backgrounds-folder has to be filled with valid images,
 --awesome is doing the rest.
 
 --store all backgroundfiles in a table
-wp_path = awesome_home .. "/backgrounds/"
 wp_files = {}
 wp_count = 0
 for filename in io.popen('ls ' .. wp_path):lines() do
@@ -142,76 +103,22 @@ for filename in io.popen('ls ' .. wp_path):lines() do
 	wp_files[wp_count] = filename
 end
 
---each tag gets a random wallpaper, later the wallpaper will be changed if the tag does
-wp_index = {}
-for t = 1, 9 do  wp_index[t] = math.random( 1, wp_count)  end
-gears.wallpaper.maximized( wp_path .. wp_files[wp_index[1]] , s, true)
+if wp_index == "random" then
+    --- seed and pop a few
+    math.randomseed(os.time())
+    for i=1,1000 do tmp=math.random(0,1000) end
+    
+    --each tag gets a random wallpaper, later the wallpaper will be changed if the tag does
+    wp_index = {}
+    for t = 1, 9 do  wp_index[t] = math.random( 1, wp_count)  end
+    gears.wallpaper.maximized( wp_path .. wp_files[wp_index[1]] , s, true)    
+end
+
 -- }}}
 
 
-
--- {{{ Menu
--- Create a laucher widget and a main menu 
-myawesomemenu = {
-    { "manual", terminal .. " -x man awesome" },
-    { "edit config", txt .. " " .. awesome.conffile },
-    { "restart", awesome.restart },
-    { "quit", awesome.quit }
-}
-
-myarchmenu = {
-    { "poweroff", terminal .. " -x systemctl poweroff -i" },
-    { "reboot", terminal .. " -x systemctl reboot -i"},
-    { "standby", terminal .. " -x systemctl suspend" },
-    { "lock screen", terminal .. " -x slock" },
-    { "update -Syu", terminal .. " -hold -x sudo pacman -Syu" }
-}
-
-sysconfigmenu = {
-    { "nmtui", terminal .. " -x nmtui" },
-    { "AlsaMixer", terminal .. " -x alsamixer" }
-}
-
-appsmenu = {
-    { "browser", browser },
-    { "filemanager", terminal .. " -x mc -S dark" },
-    --{ "filemanager", terminal .. " -e mc -sb" },
-    { "mail", mail },
-    { "musicplayer", music },
-    { "office", office },
-    { "txt", txt }, 
-    { "videoplayer", videoplayer },
-    { "skype", terminal .. "-e ALSA_OSS_PCM_DEVICE=skype aoss skype"}
-}
-
-networkmenu = {
-    { "wol htpc", terminal .. " -hold -x wol 00:1e:90:f8:b5:f8" },
-}
-
-
-
-mymainmenu = awful.menu({ 
-    items = { 
-        { "awesome", myawesomemenu, theme.awesomearch_icon },
-        { "arch", myarchmenu, theme.arch_icon },
-        { "sysconfig", sysconfigmenu},
-        { "applications", appsmenu},
-        { "network", networkmenu},
-        { "open terminal", terminal },
-    }
-})
-
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon, menu = mymainmenu })
----}}}
-
--- Menubar configuration
-menubar.utils.terminal = terminal -- Set the terminal for applications that require it
-menubar.cache_entries = true -- caching the icons
-menubar.app_folders = { "/usr/share/applications/" }
-menubar.show_categories = false 
--- }}}
-
-
+-- Awesome Menu
+require('menu')
 
 -- {{{ Wibox
 
