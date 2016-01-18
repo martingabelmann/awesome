@@ -25,6 +25,13 @@ mail        = "thunderbird"
 music       = "vlc"
 office      = "libreoffice"
 
+-- Screenshot directory
+screenshot_dir = "/home/martin/Screenshots/"
+screenshot_cmd = "import -frame "
+function screenshot_dest()
+    return screenshot_dir .. os.time() .. ".png"
+end
+
 -- Taglist
 taglist     = { "1", "2", "3", "4", "5", "6"}
 

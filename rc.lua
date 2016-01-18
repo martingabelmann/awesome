@@ -11,7 +11,7 @@
 --	bat		|	acpi 
 --	dict		|	dictd + eng-deu database (arch-comm)
 -- dropdown terminal    |	scrachtpad https://bbs.archlinux.org/viewtopic.php?pid=1363085#p1363085
--- screenshots          |	~/.bin/capscr (script that saves screenshot with timestamp)
+-- screenshots          |	imagemagick
 -------------------------------------------------------------------------------------------------
 --- }}}
 
@@ -351,7 +351,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
     
     -- bind PrintScrn to capture a screen
-    awful.key({				}, "Print", function() awful.util.spawn("capscr",false) end),
+    awful.key({				}, "Print", function() awful.util.spawn_with_shell(screenshot_cmd .. screenshot_dest()) end),
 
     -- Layout manipulation
     keydoc.group("Layout manipulation"),
