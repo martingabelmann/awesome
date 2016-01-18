@@ -10,7 +10,6 @@
 --------------------------------------------------------------------------------------------------
 --	bat		|	acpi 
 --	dict		|	dictd + eng-deu database (arch-comm)
---	weather	        |	ansiweather (arch-aur)
 -- dropdown terminal    |	scrachtpad https://bbs.archlinux.org/viewtopic.php?pid=1363085#p1363085
 -- screenshots          |	~/.bin/capscr (script that saves screenshot with timestamp)
 -------------------------------------------------------------------------------------------------
@@ -210,14 +209,6 @@ batwidget:connect_signal("mouse::leave", function() naughty.destroy(bat) end)
 --- }}}
 
 
---- {{{ weather widget
-weatherwidget = wibox.widget.textbox()
-weatherwidget:set_text(awful.util.pread("ansiweather -l Rastatt,DE -u metric -s false|awk '{print $7, $8}'"))
-weathertimer = timer( { timeout = 900 } ) -- Update every 15 minutes.
-weathertimer:start() 
---- }}}
-
-
 -- Create a wibox for each screen and add it
 mywibox = {}
 mypromptbox = {}
@@ -307,7 +298,6 @@ for s = 1, screen.count() do
 	    right_layout:add(icon)
     end
 
-    right_layout:add(weatherwidget)
     addicon(theme.vol)
     right_layout:add(volwidget)
     addicon(theme.cpu)
