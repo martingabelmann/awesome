@@ -26,7 +26,7 @@ music       = "vlc"
 office      = "libreoffice"
 
 -- Taglist
-taglist     = { "term", "browser", "mail", "foo", "bar"}
+taglist     = { "1", "2", "3", "4", "5", "6"}
 
 -- Default modkey.
 modkey = "Mod4"
