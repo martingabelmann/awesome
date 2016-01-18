@@ -37,8 +37,7 @@ modkey = "Mod4"
 wp_index    = "random"
 
 -- ...or order the wallpers on your own choice
--- wp_index = {1,2,3,4,5,6,7,8,9}
-
+-- wp_index = {1,1,1,1,1,1,1,1,1}
 -- }}}
 
 -- {{{ Table of layouts to cover with awful.layout.inc, order matters.

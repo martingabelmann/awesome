@@ -106,13 +106,11 @@ if wp_index == "random" then
     --- seed and pop a few
     math.randomseed(os.time())
     for i=1,1000 do tmp=math.random(0,1000) end
-    
     --each tag gets a random wallpaper, later the wallpaper will be changed if the tag does
     wp_index = {}
     for t = 1, 9 do  wp_index[t] = math.random( 1, wp_count)  end
-    gears.wallpaper.maximized( wp_path .. wp_files[wp_index[1]] , s, true)    
 end
-
+gears.wallpaper.maximized( wp_path .. wp_files[wp_index[1]] , s, true)    
 -- }}}
 
 
