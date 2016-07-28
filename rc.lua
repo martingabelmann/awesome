@@ -15,12 +15,11 @@
 -------------------------------------------------------------------------------------------------
 --- }}}
 
-
-
 --- {{{ Grap the environment
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
+
 --vicious widgets
 local vicious = require("vicious")
 --scratchpad for dropdownterminal
@@ -90,9 +89,8 @@ end
 -- }}}
 
 
---{{{ random wallpapers for each tag
+--{{{ (random) wallpapers for each tag
 --the backgrounds-folder has to be filled with valid images,
---awesome is doing the rest.
 
 --store all backgroundfiles in a table
 wp_files = {}
@@ -102,16 +100,30 @@ for filename in io.popen('ls ' .. wp_path):lines() do
 	wp_files[wp_count] = filename
 end
 
+wp_index="random"
+--wp_aspectraatio=false
 if wp_index == "random" then
     --- seed and pop a few
     math.randomseed(os.time())
     for i=1,1000 do tmp=math.random(0,1000) end
-    --each tag gets a random wallpaper, later the wallpaper will be changed if the tag does
+    --each tag gets a random wallpaper
     wp_index = {}
     for t = 1, 9 do  wp_index[t] = math.random( 1, wp_count)  end
 end
-gears.wallpaper.maximized( wp_path .. wp_files[wp_index[1]] , s, true)    
--- }}}
+function setwallpaper(tag,screen) 
+    if not wp_screen then screen = nil end
+    gears.wallpaper.maximized( wp_path .. wp_files[wp_index[tag]] , screen, wp_aspectratio)
+end
+
+if wp_screen then
+    for s=1, screen.count() do
+        setwallpaper(1, s)
+    end
+else
+    setwallpaper(1)
+end
+
+--}}
 
 
 -- Awesome Menu
@@ -130,14 +142,6 @@ calendar2.addCalendarToWidget(mytextclock, "<span color='blue'>%s</span>")
 
 
 --- {{{ FSwidget get free diskspace
---home mount 
-fs_home = awful.widget.textclock()
-vicious.register(fs_home, vicious.widgets.fs, "${/home avail_gb}GB")
-fs_home:connect_signal("mouse::enter", function()
-    dev = naughty.notify({title="dev",text="/home"})  -- show device on mouseover
-end)
-fs_home:connect_signal("mouse::leave", function() naughty.destroy(dev) end)
-
 --root 
 fs_root = awful.widget.textclock()
 vicious.register(fs_root, vicious.widgets.fs, "${/ avail_gb}GB")
@@ -178,7 +182,6 @@ voltimer:connect_signal("timeout", function() readvol(volwidget) end)
 voltimer:start()
 --- }}}
 
-
 --- {{{ Batterywidget
 batwidget = wibox.widget.textbox()
 --this functions parses the sys/class/power_supply files for capacity
@@ -187,7 +190,7 @@ function readbat()
     capacity = awful.util.pread("more -sflu /sys/class/power_supply/BAT0/capacity | tr -d '\n'") 
     charge_status = awful.util.pread("more -sflu /sys/class/power_supply/BAT0/status | tr -d '\n'") 
     batwidget:set_markup(capacity .. "%")
-	
+       
     if capacity < "20" and charge_status == "Discharging" then 
         bat = naughty.notify({title="Battery low!!!",text=awful.util.pread("acpi"),fg="#C00000", icon=theme.lowbat}) 
         batwidget:connect_signal("mouse::enter", function() naughty.destroy(bat) end)
@@ -207,6 +210,7 @@ batwidget:connect_signal("mouse::leave", function() naughty.destroy(bat) end)
 --- }}}
 
 
+
 -- Create a wibox for each screen and add it
 mywibox = {}
 mypromptbox = {}
@@ -216,7 +220,7 @@ mytaglist.buttons = awful.util.table.join(
                     awful.button({ }, 1, function(t) 
 			            awful.tag.viewonly(t)
 			            --set random wallpaper for toggeled tag
-		                gears.wallpaper.maximized( wp_path .. wp_files[wp_index[awful.tag.getidx(t)]] , s, true)
+		                setwallpaper(awful.tag.getidx(t), awful.tag.getscreen(t))
 		            end),
                     awful.button({ modkey }, 1, awful.client.movetotag),
                     awful.button({ }, 3, awful.tag.viewtoggle),
@@ -296,14 +300,13 @@ for s = 1, screen.count() do
 	    right_layout:add(icon)
     end
 
+
     addicon(theme.vol)
     right_layout:add(volwidget)
     addicon(theme.cpu)
     right_layout:add(cpuwidget)
     addicon(theme.mem)
     right_layout:add(memwidget)
-    addicon(theme.disc)
-    right_layout:add(fs_home)
     addicon(theme.disc)
     right_layout:add(fs_root)
     addicon(theme.bat)
@@ -487,7 +490,7 @@ for i = 1, 9 do
                         if tag then
                            awful.tag.viewonly(tag)
                            --set random wallpaper on current tag
-                           gears.wallpaper.maximized( wp_path .. wp_files[wp_index[i]] , s, true)
+		                setwallpaper(i, screen)
                         end
                   end),
         awful.key({ modkey, "Control" }, "#" .. i + 9,

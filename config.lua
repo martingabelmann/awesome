@@ -40,11 +40,20 @@ modkey = "Mod4"
 -- }}}
 
 -- {{{  Wallpaper config
+
 -- set to random to get random wallpapers per session per tag
 wp_index    = "random"
 
 -- ...or order the wallpers on your own choice
 -- wp_index = {1,1,1,1,1,1,1,1,1}
+
+-- set one wallpaper per screen (true) 
+-- or stretch the same over all monitors (false)
+wp_screen = false
+
+-- wether to ignore aspect ratio
+wp_aspectratio = true
+
 -- }}}
 
 -- {{{ Table of layouts to cover with awful.layout.inc, order matters.
