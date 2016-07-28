@@ -39,6 +39,12 @@ local menubar = require("menubar")
 local keydoc = require("keydoc")
 --- }}}
 
+
+-- GNOME-integration: let awesome.quit kill the gnome-session
+if os.getenv("DESKTOP_SESSION") == "awesome-gnome" then
+    awesome.quit = function() os.execute("/usr/bin/gnome-session-quit --force") end
+end
+
 -- {{{ Useful Functions
 function trim(s, count)
     return (string.sub(s, 1, count) .. "...")
