@@ -39,6 +39,16 @@ taglist     = { "1", "2", "3", "4", "5", "6"}
 modkey = "Mod4"
 -- }}}
 
+-- Volume widget: file that stores acpi-volume informations (ibm thinkpads)
+volfile="/proc/acpi/ibm/volume"
+--volfile="" --disables volume widget
+
+-- Battery widget: files containing capacity and charge informations (ibm thinkpads)
+batcapacityfile="/sys/class/power_supply/BAT0/capacity"
+batstatusfile="/sys/class/power_supply/BAT0/status"
+--batstatusfile="" -- disables battery widget
+--batcapacityfile="" 
+
 -- {{{  Wallpaper config
 
 -- set to random to get random wallpapers per session per tag

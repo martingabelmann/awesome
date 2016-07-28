@@ -166,10 +166,12 @@ cpuwidget = wibox.widget.textbox()
 vicious.register(cpuwidget, vicious.widgets.cpu, "$1%")
 --- }}}
 
+
+
 --- {{{ Volumewidget
-function readvol()
-    vol = round((awful.util.pread("cat /proc/acpi/ibm/volume | awk 'NR>0 && NR<2 {print $2}'"))*100/14,0)
-    mutestatus = awful.util.pread("cat /proc/acpi/ibm/volume")
+function readvol(volwidget)
+    vol = round((awful.util.pread("cat" .. volfile .. "| awk 'NR>0 && NR<2 {print $2}'"))*100/14,0)
+    mutestatus = awful.util.pread("cat" .. volfile)
 
     if string.find(mutestatus, "on", 1, true) then
         volcolor = theme.fg_focus
@@ -181,20 +183,23 @@ function readvol()
     volwidget:set_markup(volume)
 end
 
-volwidget = wibox.widget.textbox()
-readvol()
-voltimer = timer({ timeout =1 }) 
-voltimer:connect_signal("timeout", function() readvol(volwidget) end)
-voltimer:start()
---- }}}
-
+if awful.util.file_readable(volfile) then
+    volwidget = wibox.widget.textbox()
+    readvol(widget)
+    voltimer = timer({ timeout =1 }) 
+    voltimer:connect_signal("timeout", function() readvol(volwidget) end)
+    voltimer:start()
+    --- }}}
+else 
+    volwidget = false
+end
+   
 --- {{{ Batterywidget
-batwidget = wibox.widget.textbox()
---this functions parses the sys/class/power_supply files for capacity
+--this function parses the sys/class/power_supply files for capacity
 --if the capacity gets to low, a notification will appear
-function readbat()
-    capacity = awful.util.pread("more -sflu /sys/class/power_supply/BAT0/capacity | tr -d '\n'") 
-    charge_status = awful.util.pread("more -sflu /sys/class/power_supply/BAT0/status | tr -d '\n'") 
+function readbat(batwidget)
+    capacity = awful.util.pread("more -sflu " .. batcapacityfile .. " | tr -d '\n'") 
+    charge_status = awful.util.pread("more -sflu " .. batstatusfile .. " | tr -d '\n'") 
     batwidget:set_markup(capacity .. "%")
        
     if capacity < "20" and charge_status == "Discharging" then 
@@ -202,20 +207,23 @@ function readbat()
         batwidget:connect_signal("mouse::enter", function() naughty.destroy(bat) end)
     end
 end
-
-readbat()
---renew the batterystatus every ten sec
-batimer = timer({ timeout =10 }) 
-batimer:connect_signal("timeout", function() readbat(batwidget) end)
-batimer:start()
---detailed battery-informations on mouseover
-batwidget:connect_signal("mouse::enter", function() 
-    bat = naughty.notify({title="Batterystatus",text=awful.util.pread("acpi")})  
-end)
-batwidget:connect_signal("mouse::leave", function() naughty.destroy(bat) end) 
+ 
+if awful.util.file_readable(batcapacityfile) and awful.util.file_readable(batstatusfile) then
+    batwidget = wibox.widget.textbox()
+    readbat(batwidget)
+    --renew the batterystatus every ten sec
+    batimer = timer({ timeout =10 }) 
+    batimer:connect_signal("timeout", function() readbat(batwidget) end)
+    batimer:start()
+    --detailed battery-informations on mouseover
+    batwidget:connect_signal("mouse::enter", function() 
+        bat = naughty.notify({title="Batterystatus",text=awful.util.pread("acpi")})  
+    end)
+    batwidget:connect_signal("mouse::leave", function() naughty.destroy(bat) end) 
+else 
+    batwidget = false
+end
 --- }}}
-
-
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -306,17 +314,20 @@ for s = 1, screen.count() do
 	    right_layout:add(icon)
     end
 
-
-    addicon(theme.vol)
-    right_layout:add(volwidget)
+    if volwidget then
+        addicon(theme.vol)
+        right_layout:add(volwidget)
+    end
     addicon(theme.cpu)
     right_layout:add(cpuwidget)
     addicon(theme.mem)
     right_layout:add(memwidget)
     addicon(theme.disc)
     right_layout:add(fs_root)
-    addicon(theme.bat)
-    right_layout:add(batwidget)
+    if batwidget then
+        addicon(theme.bat)
+        right_layout:add(batwidget)
+    end
     if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
