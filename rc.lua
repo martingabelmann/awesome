@@ -106,7 +106,6 @@ for filename in io.popen('ls ' .. wp_path):lines() do
 	wp_files[wp_count] = filename
 end
 
---wp_aspectraatio=false
 if wp_index == "random" then
     --- seed and pop a few
     math.randomseed(os.time())
@@ -115,6 +114,9 @@ if wp_index == "random" then
     wp_index = {}
     for t = 1, 9 do  wp_index[t] = math.random( 1, wp_count)  end
 end
+
+-- set tag-wallpaper for particular(all) screen(s)
+-- call this function on tag-toggle events
 function setwallpaper(tag,screen) 
     if not wp_screen then screen = nil end
     gears.wallpaper.maximized( wp_path .. wp_files[wp_index[tag]] , screen, wp_aspectratio)
@@ -506,7 +508,7 @@ for i = 1, 9 do
                         if tag then
                            awful.tag.viewonly(tag)
                            --set random wallpaper on current tag
-		                setwallpaper(i, screen)
+		                   setwallpaper(i, screen)
                         end
                   end),
         awful.key({ modkey, "Control" }, "#" .. i + 9,
