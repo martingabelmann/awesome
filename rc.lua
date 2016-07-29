@@ -106,7 +106,6 @@ for filename in io.popen('ls ' .. wp_path):lines() do
 	wp_files[wp_count] = filename
 end
 
-wp_index="random"
 --wp_aspectraatio=false
 if wp_index == "random" then
     --- seed and pop a few
