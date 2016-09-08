@@ -186,7 +186,7 @@ end
 
 if awful.util.file_readable(volfile) then
     volwidget = wibox.widget.textbox()
-    readvol(widget)
+    readvol(volwidget)
     voltimer = timer({ timeout =1 }) 
     voltimer:connect_signal("timeout", function() readvol(volwidget) end)
     voltimer:start()
