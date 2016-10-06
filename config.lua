@@ -11,7 +11,7 @@ awesome_home = "/home/martin/.config/awesome"
 wp_path = awesome_home .. "/backgrounds/"
 
 -- Themes define colours, icons, and wallpapers
-beautiful.init(awesome_home .. "/themes/defaultmod/theme.lua")
+beautiful.init(awesome_home .. "/themes/default/theme.lua")
 
 --default applications for the menu
 terminal    = "xfce4-terminal"
