@@ -1,3 +1,6 @@
 [submodule "themes"]
 	path = themes
 	url = https://github.com/Morley93/awesome-themes-3.5
+[submodule "vicious"]
+	path = vicious
+	url = https://github.com/Mic92/vicious.git
