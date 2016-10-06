@@ -40,7 +40,7 @@ modkey = "Mod4"
 -- }}}
 
 -- Volume widget: file that stores acpi-volume informations (ibm thinkpads)
-volfile="/proc/acpi/ibm/volume"
+volfile = "/proc/acpi/ibm/volume"
 --volfile="" --disables volume widget
 
 -- Battery widget: files containing capacity and charge informations (ibm thinkpads)

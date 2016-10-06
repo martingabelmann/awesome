@@ -171,8 +171,8 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1%")
 
 --- {{{ Volumewidget
 function readvol(volwidget)
-    vol = round((awful.util.pread("cat" .. volfile .. "| awk 'NR>0 && NR<2 {print $2}'"))*100/14,0)
-    mutestatus = awful.util.pread("cat" .. volfile)
+    vol        = round((awful.util.pread("cat " .. volfile .. "| awk 'NR>0 && NR<2 {print $2}'"))*100/14,0)
+    mutestatus = awful.util.pread("cat " .. volfile)
 
     if string.find(mutestatus, "on", 1, true) then
         volcolor = theme.fg_focus
