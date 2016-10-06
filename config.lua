@@ -13,6 +13,18 @@ wp_path = awesome_home .. "/backgrounds/"
 -- Themes define colours, icons, and wallpapers
 beautiful.init(awesome_home .. "/themes/default/theme.lua")
 
+theme.awesome_icon     = awesome_home .. "/icons/awesome16.png"
+theme.arch_icon        = awesome_home .. "/icons/arch16.png"
+theme.awesomearch_icon = awesome_home .. "/icons/awesomearch.png"
+theme.bat              = awesome_home .. "/icons/bat_full_01.png"
+theme.lowbat           = awesome_home .. "/icons/lowbat.png"
+theme.wifi             = awesome_home .. "/icons/wifi_01.png"
+theme.vol              = awesome_home .. "/icons/spkr_01.png"
+theme.mem              = awesome_home .. "/icons/mem.png"
+theme.disc             = awesome_home .. "/icons/disc.png"
+theme.cpu              = awesome_home .. "/icons/cpu.png"
+
+
 --default applications for the menu
 terminal    = "xfce4-terminal"
 editor      = "vim"
