@@ -31,14 +31,6 @@ theme.fg_widget_clock           = "#aaaaaa"
 --default applications for the menu
 terminal    = "xfce4-terminal"
 editor      = "vim"
-editor_cmd  = terminal .. " -x " .. editor
-filemanager = "mc"
-txt         = "vim"
-browser     = "luakit"
-videoplayer = "vlc"
-mail        = "thunderbird"
-music       = "vlc"
-office      = "libreoffice"
 
 -- Screenshot directory
 screenshot_dir = "/home/martin/Screenshots/"
