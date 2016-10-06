@@ -354,7 +354,7 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-    keydoc.group("Misc"),
+    keydoc.group("Keybindings"),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
@@ -369,13 +369,12 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
+    awful.key({ modkey,           }, "w", function () mymainmenu:show() end, "Awesome menu"),
     
     -- bind PrintScrn to capture a screen
-    awful.key({				}, "Print", function() awful.util.spawn_with_shell(screenshot_cmd .. screenshot_dest()) end),
+    awful.key({				}, "Print", function() awful.util.spawn_with_shell(screenshot_cmd .. screenshot_dest()) end, "Take a screenshot"),
 
     -- Layout manipulation
-    keydoc.group("Layout manipulation"),
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end, "Swap with next window"),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end, "Swap with previous window"),
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end, "Focus left screen"),
@@ -390,8 +389,7 @@ globalkeys = awful.util.table.join(
         end),
 
     -- Standard program
-    keydoc.group("Standard program"),
-    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
+    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end, "Spawn a Terminal"),
     awful.key({ modkey, "Control" }, "r", awesome.restart, "Restart awesome"),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit, "Quit awesome"),
 
@@ -404,9 +402,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end, "Next layout"),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end, "Previous layout"),
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
+    -- Menubar
+    awful.key({ modkey }, "r", function() menubar.show() end, "Menubar"),
     
-    keydoc.group("Widgets"),
-    
+    -- show keydocs
     awful.key({ modkey, }, "F1", keydoc.display, "Show this message"),
     
     --Dropdownterminal
@@ -450,17 +449,13 @@ end, "Dictionary"),
                   mypromptbox[mouse.screen].widget,
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
-              end),
-              
-    -- Menubar
-    awful.key({ modkey }, "r", function() menubar.show() end, "Menubar")
-    
+              end)
     )
 
 clientkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey,		  }, "q",      function (c) c:kill()                         end),
-    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
+    awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end, "Fullscreen"),
+    awful.key({ modkey,		  }, "q",      function (c) c:kill()                         end, "Close active client"),
+    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     , "Toggle floating client"),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
