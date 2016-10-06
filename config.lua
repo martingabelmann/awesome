@@ -23,7 +23,10 @@ theme.vol              = awesome_home .. "/icons/spkr_01.png"
 theme.mem              = awesome_home .. "/icons/mem.png"
 theme.disc             = awesome_home .. "/icons/disc.png"
 theme.cpu              = awesome_home .. "/icons/cpu.png"
-
+--- keycode widget colors
+theme.fg_widget_value           = "#ffffff"
+theme.fg_widget_value_important = "#7788af"
+theme.fg_widget_clock           = "#aaaaaa"
 
 --default applications for the menu
 terminal    = "xfce4-terminal"
