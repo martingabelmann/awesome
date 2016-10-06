@@ -6,19 +6,14 @@ function askfor(question, func)
 	naughty.notify({
         title   = question,
         text    = "click for 'yes'",
-	    timeout = 5,
-	    run     = func
+        timeout = 5,
+        run     = func
 	})
 end
 
 mymainmenu = awful.menu({ 
     items = { 
-        { "logout", function() askfor(
-            "Do you really want to logout?",  
-            awesome.quit
-            ) 
-            end 
-        },
+        { "logout", function() askfor("Do you really want to logout?",  awesome.quit) end},
         
         { "poweroff", function() askfor(
             "Do you really want to shutdown?",  
