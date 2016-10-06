@@ -28,6 +28,9 @@ theme.fg_widget_value           = "#ffffff"
 theme.fg_widget_value_important = "#7788af"
 theme.fg_widget_clock           = "#aaaaaa"
 
+-- disable tsklist icons
+theme.tasklist_disable_icon = true
+
 --default applications for the menu
 terminal    = "xfce4-terminal"
 editor      = "vim"
