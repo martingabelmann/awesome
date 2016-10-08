@@ -1,17 +1,17 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
 local menubar = require("menubar")
-
 -- {{{ Variable definitions
 
 -- path to awesome config dir
-awesome_home = "/home/martin/.config/awesome"
+awesome_home = awful.util.getdir("config")
 
 -- Wallpapers directory, dont store anyting else in there!
 wp_path = awesome_home .. "/backgrounds/"
--- Themes define colours, icons, and wallpapers
-beautiful.init(awesome_home .. "/themes/default/theme.lua")
 
+-- Themes define colours, icons, and wallpapers
+-- fallback theme if the theme in the themeswitch file is not found
+theme_fallback = "/usr/share/awesome/themes/default/theme.lua" 
 theme.awesome_icon     = awesome_home .. "/icons/awesome16.png"
 theme.arch_icon        = awesome_home .. "/icons/arch16.png"
 theme.awesomearch_icon = awesome_home .. "/icons/awesomearch.png"

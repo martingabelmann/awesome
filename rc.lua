@@ -81,9 +81,23 @@ do
 end
 -- }}}
 
+-- {{{ Load theme
+-- check if the theme defined in the themeswitch file exists and load it
+if awful.util.file_readable(awful.util.getdir('config') .. "/themeswitch") then
+    theme_dir = io.open(awful.util.getdir('config') .. "/themeswitch", "r"):read "line"
+end 
+
+if awful.util.file_readable(awful.util.getdir('config') .. "/themes/" .. theme_dir .. "/theme.lua") then
+    naughty.notify({text = "using theme " .. theme_dir , timeout=2})
+    beautiful.init(awful.util.getdir('config') .. "/themes/" .. theme_dir .. "/theme.lua")
+else
+    naughty.notify({preset = naughty.config.presets.critical, text = "theme " .. theme_dir .. " not found. Falling back..." })
+    beautiful.init(theme_fallback)
+end
+-- }}}
+
 -- User vars and configs
 require('config')
-
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.

@@ -13,11 +13,27 @@ function askfor(question, func)
 	})
 end
 
+-- write theme name to awesome_home/themeswitch
+-- and restart awesome
+function write_theme(theme_dir)
+    io.open(awesome_home .. "/themeswitch", "w"):write(theme_dir)
+    awful.util.eval(awesome.restart)
+end
+
 -- generate menu with xdg_menu
 if awful.util.file_readable(gen_xdg_menu_file) then
     awful.util.eval(awful.util.pread("xdg_menu --format awesome --root-menu " .. gen_xdg_menu_file))
 else
     xdgmenu = nil
+end
+
+
+-- search for all themes in awesome_home/themes
+themeswitch = {}
+for theme_dir in io.popen('ls -1 ' .. awesome_home .. "/themes"):lines() do
+    if awful.util.file_readable(awesome_home .. "/themes/" .. theme_dir .. "/theme.lua") then
+	    table.insert(themeswitch, { theme_dir,  function() write_theme(theme_dir) end })
+    end
 end
 
 mymainmenu = awful.menu({ 
@@ -46,6 +62,8 @@ mymainmenu = awful.menu({
         },
         
         { "lock screen", terminal .. " -x slock" },
+        
+        { "theme swich", themeswitch },
         
         { "awesome", xdgmenu, theme.awesomearch_icon }
     }

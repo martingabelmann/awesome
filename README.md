@@ -1,5 +1,5 @@
 # AwesomeWM
-My Awesomeconfig and -widgets. Some of them are selfmade and more ore less documented, some are from the awesome-wiki (i'll try to mark them).  
+My Awesomeconfig (3.5) and -widgets. Some of them are selfmade and more ore less documented, some are from the awesome-wiki (i'll try to mark them).  
 
 
 ##  Table of contents
@@ -13,6 +13,7 @@ My Awesomeconfig and -widgets. Some of them are selfmade and more ore less docum
 * [Dropdown Terminal](#dropdown)
 * [Application menu](#xdg-menu)
 * [Shutdown dialog](#shutdown-dialog)
+* [Theme switch](#theme-switch)
 
 -----
 
@@ -66,3 +67,8 @@ For more information see the archlinux [xdg-menu wiki article](https://wiki.arch
 
 ### Shutdown dialog
 Using the shutdown/logout/suspend/reboot buttons from the awesome menu spawns a naugthy notification. To confirm the command left-click on the notification, otherwise it will vanish afert 5 seconds.
+
+### Theme switch
+There are a lot of awesome themes, changing the theme path by hand to see how they look/feel is rather annoying...
+When cloning this repo with `--recursive` you get a [lot of themes](https://github.com/Morley93/awesome-themes-3.5) and you are able to change/try them with the awesome menu.  
+The name of the used theme is saved in the file `~/config/awesome"/themeswitch`, you can change it with the menu (which also restarts awesome) or set it by hand.
