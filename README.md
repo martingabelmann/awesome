@@ -44,9 +44,9 @@ Run with `modkey + d`.
 
 ### Volume Widget
 Im using hardwarebuttons to control the audio volume, so i just have to know the audio-level and mute-status. For my thinkpad this information is stored at '/proc/acpi/volume'. The file is been parsed every half second and echoed in a textbox. 
-If you dont want to use the volume widget (e.g. when using pulse audios widget) set:
+As a fallback it will show the state of alsas Master controller. If you dont want to see the volwidget (e.g. when using pulse audios widget) set:
 ```lua
-volfile = ""
+volfile = false
 ```
 
 ### Battery Widget

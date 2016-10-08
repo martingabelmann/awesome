@@ -184,7 +184,8 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1%")
 
 
 --- {{{ Volumewidget
-function readvol(volwidget)
+-- read out status of hardware (sound) buttons
+function readvol()
     vol        = round((awful.util.pread("cat " .. volfile .. "| awk 'NR>0 && NR<2 {print $2}'"))*100/14,0)
     mutestatus = awful.util.pread("cat " .. volfile)
 
@@ -194,21 +195,33 @@ function readvol(volwidget)
         volcolor = theme.fg_normal
     end
 
-    volume = "<span color='" .. volcolor .. "'>" .. vol .. "% </span>"
-    volwidget:set_markup(volume)
+    return "<span color='" .. volcolor .. "'>" .. vol .. "% </span>"
 end
 
-if awful.util.file_readable(volfile) then
-    volwidget = wibox.widget.textbox()
-    readvol(volwidget)
-    voltimer = timer({ timeout =1 }) 
-    voltimer:connect_signal("timeout", function() readvol(volwidget) end)
-    voltimer:start()
-    --- }}}
-else 
+if volfile then
+    if awful.util.file_readable(volfile) then
+        volwidget = wibox.widget.textbox()
+        readvol(volwidget)
+        voltimer = timer({timeout=1}) 
+        voltimer:connect_signal("timeout", function() volwidget:set_markup(readvol()) end)
+        voltimer:start()
+    else
+        -- fallback to alsa if volfile not readable 
+        volwidget = wibox.widget.textbox()
+        vicious.register(volwidget, vicious.widgets.volume, "$2$1%", 10, "Master")
+    
+        -- turn volwidget off if alsa controle not found
+        checkalsa = awful.util.pread("amixer -M get Master")
+        if string.find(checkalsa, "Unable to find simple control") then
+            volwidget = false
+        end
+    end
+else
     volwidget = false
 end
-   
+--- }}}
+
+
 --- {{{ Batterywidget
 --this function parses the sys/class/power_supply files for capacity
 --if the capacity gets to low, a notification will appear
