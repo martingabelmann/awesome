@@ -39,7 +39,7 @@ editor      = "vim"
 gen_xdg_menu_file = "/etc/xdg/menus/arch-applications.menu"
 
 -- Screenshot directory
-screenshot_dir = "/home/martin/Screenshots/"
+screenshot_dir = os.getenv("HOME") .. "/Screenshots/"
 screenshot_cmd = "import -frame "
 function screenshot_dest()
     return screenshot_dir .. os.time() .. ".png"
