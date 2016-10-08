@@ -63,7 +63,7 @@ mymainmenu = awful.menu({
         
         { "lock screen", terminal .. " -x slock" },
         
-        { "theme swich", themeswitch },
+        { "theme switch", themeswitch },
         
         { "awesome", xdgmenu, theme.awesomearch_icon }
     }
