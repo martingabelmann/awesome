@@ -101,7 +101,7 @@ end
 --store all backgroundfiles in a table
 wp_files = {}
 wp_count = 0
-for filename in io.popen('ls ' .. wp_path):lines() do
+for filename in io.popen('ls -1 ' .. wp_path):lines() do
     wp_count = wp_count + 1
 	wp_files[wp_count] = filename
 end
