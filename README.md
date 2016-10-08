@@ -12,6 +12,7 @@ My Awesomeconfig and -widgets. Some of them are selfmade and more ore less docum
 * [Battery widget](#battery-widget)
 * [Dropdown Terminal](#dropdown)
 * [Application menu](#xdg-menu)
+* [Shutdown dialog](#shutdown-dialog)
 
 -----
 
@@ -62,3 +63,6 @@ In principle [scratchpad](https://awesome.naquadah.org/wiki/Scratchpad_manager) 
 On Archlinux install `pacman -S archlinux-xdg-menu`. It then generates an Application menu on every awesome start.
 Other distros may change the `gen_xdg_menu_file=/etc/xdg/menus/arch-applications.menu` path. 
 For more information see the archlinux [xdg-menu wiki article](https://wiki.archlinux.org/index.php/xdg-menu).
+
+### Shutdown dialog
+Using the shutdown/logout/suspend/reboot buttons from the awesome menu spawns a naugthy notification. To confirm the command left-click on the notification, otherwise it will vanish afert 5 seconds.
