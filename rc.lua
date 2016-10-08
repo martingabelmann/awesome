@@ -51,8 +51,7 @@ function trim(s, count)
 end
 
 function round(num, idp)
-    local mult = 10^(idp or 0)
-    return math.floor(num * mult + 0.5) / mult
+    return tonumber(string.format("%." .. (idp or 0) .. "f", num))
 end
 -- }}}
 
@@ -186,7 +185,7 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1%")
 --- {{{ Volumewidget
 -- read out status of hardware (sound) buttons
 function readvol()
-    vol        = round((awful.util.pread("cat " .. volfile .. "| awk 'NR>0 && NR<2 {print $2}'"))*100/14,0)
+    vol        = round(tonumber(awful.util.pread("cat " .. volfile .. "| awk 'NR>0 && NR<2 {print $2}'"))*100/14)
     mutestatus = awful.util.pread("cat " .. volfile)
 
     if string.find(mutestatus, "on", 1, true) then
@@ -212,7 +211,7 @@ if volfile then
     
         -- turn volwidget off if alsa controle not found
         checkalsa = awful.util.pread("amixer -M get Master")
-        if string.find(checkalsa, "Unable to find simple control") then
+        if string.find(checkalsa, "Unable to find simple control", 1, true) then
             volwidget = false
         end
     end
