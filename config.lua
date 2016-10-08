@@ -9,7 +9,6 @@ awesome_home = "/home/martin/.config/awesome"
 
 -- Wallpapers directory, dont store anyting else in there!
 wp_path = awesome_home .. "/backgrounds/"
-
 -- Themes define colours, icons, and wallpapers
 beautiful.init(awesome_home .. "/themes/default/theme.lua")
 
@@ -34,6 +33,10 @@ theme.tasklist_disable_icon = true
 --default applications for the menu
 terminal    = "xfce4-terminal"
 editor      = "vim"
+
+-- path to xdg_menu generation file
+-- xdg_menu creates a applications menu for you
+gen_xdg_menu_file = "/etc/xdg/menus/arch-applications.menu"
 
 -- Screenshot directory
 screenshot_dir = "/home/martin/Screenshots/"

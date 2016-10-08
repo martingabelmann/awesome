@@ -11,6 +11,7 @@ My Awesomeconfig and -widgets. Some of them are selfmade and more ore less docum
 * [Dictionaryt](#dict)
 * [Battery widget](#battery-widget)
 * [Dropdown Terminal](#dropdown)
+* [Application menu](#xdg-menu)
 
 -----
 
@@ -56,3 +57,8 @@ batcapacityfile=""
 ### Scratchpad
 Need a small shell just for short time without switching the tag or squeezing the layout? - Just drop one with `mod4 + v`.  
 In principle [scratchpad](https://awesome.naquadah.org/wiki/Scratchpad_manager) can be used to dropdown everything...
+
+### XDG menu
+On Archlinux install `pacman -S archlinux-xdg-menu`. It then generates an Application menu on every awesome start.
+Other distros may change the `gen_xdg_menu_file=/etc/xdg/menus/arch-applications.menu` path. 
+For more information see the archlinux [xdg-menu wiki article](https://wiki.archlinux.org/index.php/xdg-menu).

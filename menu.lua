@@ -2,6 +2,8 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
 
+
+-- confirm <question> to run <func> by clicking on the notification
 function askfor(question, func) 
 	naughty.notify({
         title   = question,
@@ -9,6 +11,13 @@ function askfor(question, func)
         timeout = 5,
         run     = func
 	})
+end
+
+-- generate menu with xdg_menu
+if awful.util.file_readable(gen_xdg_menu_file) then
+    awful.util.eval(awful.util.pread("xdg_menu --format awesome --root-menu " .. gen_xdg_menu_file))
+else
+    xdgmenu = nil
 end
 
 mymainmenu = awful.menu({ 
@@ -38,7 +47,7 @@ mymainmenu = awful.menu({
         
         { "lock screen", terminal .. " -x slock" },
         
-        { "awesome", nil, theme.awesomearch_icon }
+        { "awesome", xdgmenu, theme.awesomearch_icon }
     }
 })
 
