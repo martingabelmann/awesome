@@ -5,7 +5,7 @@ My Awesomeconfig (3.5) and -widgets. Some of them are selfmade and more ore less
 ##  Table of contents
 * [Variables](#variables)
 * [Keybindings](#keydoc)
-* [Random wallpapers](#random-wallpapers)
+* [(Random) wallpapers](#random-wallpapers)
 * [Volume widget](#volume-widget)
 * [Screenshots](#screenshots)
 * [Dictionaryt](#dict)
@@ -32,8 +32,11 @@ If you prefer static (but maybe different) wallpapers per tag fill `wp_index` wi
 ```lua
 wp_index = {2,1,2,1,2,1,2,1,2}
 ```
-The numbers are counted from the output of `ls` in the background dir.
-
+The numbers are counted from the output of `ls` in the background dir.   
+If you want to use the wallpaper from the theme dir (works nice together with the [theme switch](#theme-switch)) set
+```lua
+wp_index = "theme"
+```
 ### Screenshots
 are saved to `~/Screenshots`. By default `import -frame DATE` (from imagemagick package) is used.  
 Shortkey is `Print`. 
@@ -43,7 +46,7 @@ The cli-app [dictd](https://www.archlinux.org/packages/community/x86_64/dictd/) 
 Run with `modkey + d`.
 
 ### Volume Widget
-Im using hardwarebuttons to control the audio volume, so i just have to know the audio-level and mute-status. For my thinkpad this information is stored at '/proc/acpi/volume'. The file is been parsed every half second and echoed in a textbox. 
+Im using hardwarebuttons to control the audio volume, so i just have to know the audio-level and mute-status. For my thinkpad this information is stored at '/proc/acpi/volume'. The file is been parsed every 2 seconds and echoed in a textbox. 
 As a fallback it will show the state of alsas Master controller. If you dont want to see the volwidget (e.g. when using pulse audios widget) set:
 ```lua
 volfile = false

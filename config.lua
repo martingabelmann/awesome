@@ -6,12 +6,7 @@ local menubar = require("menubar")
 -- path to awesome config dir
 awesome_home = awful.util.getdir("config")
 
--- Wallpapers directory, dont store anyting else in there!
-wp_path = awesome_home .. "/backgrounds/"
-
 -- Themes define colours, icons, and wallpapers
--- fallback theme if the theme in the themeswitch file is not found
-theme_fallback = "/usr/share/awesome/themes/default/theme.lua" 
 theme.awesome_icon     = awesome_home .. "/icons/awesome16.png"
 theme.arch_icon        = awesome_home .. "/icons/arch16.png"
 theme.awesomearch_icon = awesome_home .. "/icons/awesomearch.png"
@@ -64,11 +59,17 @@ batstatusfile="/sys/class/power_supply/BAT0/status"
 
 -- {{{  Wallpaper config
 
+-- Wallpapers directory, dont store anyting else in there!
+wp_path = awesome_home .. "/backgrounds/"
+
 -- set to random to get random wallpapers per session per tag
 wp_index    = "random"
 
 -- ...or order the wallpers on your own choice
 -- wp_index = {1,1,1,1,1,1,1,1,1}
+
+-- or set to theme if you want to choose the background.[png|jpg] from theme dir
+wp_index = "theme"
 
 -- set one wallpaper per screen (true) 
 -- or stretch the same over all monitors (false)
