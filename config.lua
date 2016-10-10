@@ -69,7 +69,7 @@ wp_index    = "random"
 -- wp_index = {1,1,1,1,1,1,1,1,1}
 
 -- or set to theme if you want to choose the background.[png|jpg] from theme dir
-wp_index = "theme"
+-- wp_index = "theme"
 
 -- set one wallpaper per screen (true) 
 -- or stretch the same over all monitors (false)
