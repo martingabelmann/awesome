@@ -253,8 +253,14 @@ end
 --this function parses the sys/class/power_supply files for capacity
 --if the capacity gets to low, a notification will appear
 function readbat(batwidget)
-    capacity = awful.util.pread("more -sflu " .. batcapacityfile .. " | tr -d '\n'") 
-    charge_status = awful.util.pread("more -sflu " .. batstatusfile .. " | tr -d '\n'") 
+    capacity_file = io.open(batcapacityfile, "r")
+    capacity = capacity_file:read()
+    capacity_file:close()
+
+    charge_status_file = io.open(batstatusfile, "r")
+    charge_status = charge_status_file:read()
+    charge_status_file:close()
+    
     batwidget:set_markup(capacity .. "%")
        
     if capacity < "20" and charge_status == "Discharging" then 
