@@ -205,8 +205,16 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1%")
 --- {{{ Volumewidget
 -- read out status of hardware (sound) buttons
 function readvol()
-    vol        = round(tonumber(awful.util.pread("cat " .. volfile .. "| awk 'NR>0 && NR<2 {print $2}'"))*100/14)
-    mutestatus = awful.util.pread("cat " .. volfile)
+    vol_file = io.open(volfile, "r")
+    vol_line = vol_file:read()
+    mutestatus = vol_file:read()
+    vol_file:close()
+    vol = "N/A"
+    for column in string.gmatch(vol_line, "%S+") do
+        if tonumber(column) ~= nil then
+            vol = round(column*100/14)
+        end
+    end
 
     if string.find(mutestatus, "on", 1, true) then
         volcolor = theme.fg_focus
