@@ -1,6 +1,7 @@
 # AwesomeWM
 My Awesomeconfig (3.5) and -widgets. Some of them are selfmade and more ore less documented, some are from the awesome-wiki (i'll try to mark them).  
 
+For 4+ have a look at my [awesome4-configs](https://github.com/martingabelmann/awesome4-config) repo.
 
 ##  Table of contents
 * [Variables](#variables)
